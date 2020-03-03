@@ -2,7 +2,7 @@
 	+ configure the VSC - DONE
 1. Git and Github
 	+ watch the coding train guide (+working in the same time) - DONE
-	+ watch hello roman guide (+working in the same time)
+	+ watch hello roman guide - DONE
 	+ watch the net ninja guide (+working in the same time)
 2. JavaScript
 	+ watch udemy course (+working in the same time)
