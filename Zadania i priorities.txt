@@ -1,7 +1,7 @@
 0. Visual Studio Code
-	+ configure the VSC
+	+ configure the VSC - DONE
 1. Git and Github
-	+ watch the coding train guide (+working in the same time)
+	+ watch the coding train guide (+working in the same time) - DONE
 	+ watch hello roman guide (+working in the same time)
 	+ watch the net ninja guide (+working in the same time)
 2. JavaScript
