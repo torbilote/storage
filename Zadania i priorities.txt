@@ -1,0 +1,14 @@
+0. Visual Studio Code
+	+ configure the VSC
+1. Git and Github
+	+ watch the coding train guide (+working in the same time)
+	+ watch hello roman guide (+working in the same time)
+	+ watch the net ninja guide (+working in the same time)
+2. JavaScript
+	+ watch udemy course (+working in the same time)
+	+ learn how to use sass
+	+ start the new project (need to find something)
+	+ create a usefull script 
+	+ start the another project (need to find something)
+3. Angular
+	+ learn Angular
