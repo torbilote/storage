@@ -6,6 +6,7 @@
 	+ watch the net ninja guide (+working in the same time)
 2. JavaScript
 	+ watch udemy course (+working in the same time)
+	+ do some js exercises on codewars or somewhere
 	+ learn how to use sass
 	+ start the new project (need to find something)
 	+ create a usefull script 
