@@ -4,7 +4,6 @@
     "quokka.compactMessageOutput": true,
     "prettier.bracketSpacing": false,
     "prettier.semi": false,
-    "prettier.singleQuote": true,
     "quokka.showOutputOnStart": false,
     "files.autoSave": "onFocusChange",
     "editor.fontFamily": "Fira Code",
@@ -49,5 +48,7 @@
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
     "auto-rename-tag.activationOnLanguage": ["*"],
-    "workbench.editor.untitled.hint": "hidden"
+    "workbench.editor.untitled.hint": "hidden",
+    "prettier.singleQuote": true,
+    "javascript.preferences.quoteStyle": "single"
 }
