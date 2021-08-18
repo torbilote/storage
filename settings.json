@@ -22,7 +22,7 @@
     "editor.hover.delay": 700,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "editor.wordWrap": "on",
+    "editor.wordWrap": "off",
     "terminal.integrated.fontSize": 15,
     "editor.lineHeight": 25,
     "editor.linkedEditing": true,
@@ -39,12 +39,9 @@
     "prettier.tabWidth": 4,
     "liveServer.settings.donotShowInfoMsg": true,
     "workbench.startupEditor": "newUntitledFile",
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
     "auto-rename-tag.activationOnLanguage": ["*"],
