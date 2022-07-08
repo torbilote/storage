@@ -1,51 +1,32 @@
 {
-    "workbench.colorTheme": "One Dark Pro",
-    "quokka.suppressExpirationNotifications": true,
-    "quokka.compactMessageOutput": true,
-    "prettier.bracketSpacing": false,
-    "prettier.semi": false,
-    "quokka.showOutputOnStart": false,
     "files.autoSave": "onFocusChange",
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.fontSize": 15,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "workbench.activityBar.visible": true,
     "editor.minimap.enabled": false,
-    "breadcrumbs.enabled": true,
-    "workbench.statusBar.visible": false,
-    "workbench.sideBar.location": "right",
-    "workbench.editor.tabCloseButton": "off",
-    "explorer.autoReveal": false,
-    "workbench.editor.enablePreview": false,
     "editor.hover.delay": 700,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
     "editor.wordWrap": "off",
-    "terminal.integrated.fontSize": 15,
     "editor.lineHeight": 25,
     "editor.linkedEditing": true,
-    "emojisense.languages": {
-        "markdown": true,
-        "plaintext": {
-            "markupCompletionsEnabled": false,
-            "emojiDecoratorsEnabled": false
-        },
-        "scminput": true,
-        "git-commit": true
-    },
-    "prettier.endOfLine": "auto",
-    "prettier.tabWidth": 4,
-    "liveServer.settings.donotShowInfoMsg": true,
+    "editor.bracketPairColorization.enabled": true,
+    "breadcrumbs.enabled": false,
+    "workbench.editor.enablePreview": false,
     "workbench.startupEditor": "newUntitledFile",
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
+    "workbench.sideBar.location": "right",
+    "workbench.editor.tabCloseButton": "off",
+    "workbench.editor.untitled.hint": "hidden",
+    "workbench.editor.splitInGroupLayout": "vertical",
+    "workbench.statusBar.visible": false,
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#245020"
     },
     "explorer.confirmDragAndDrop": false,
+    "explorer.autoReveal": false,
     "explorer.confirmDelete": false,
-    "auto-rename-tag.activationOnLanguage": ["*"],
-    "workbench.editor.untitled.hint": "hidden",
-    "prettier.singleQuote": true,
-    "javascript.preferences.quoteStyle": "single"
+    "terminal.integrated.fontSize": 15,
+    "git.ignoreWindowsGit27Warning": true,
+    "python.defaultInterpreterPath": "C:\\Users\\Norbert\\AppData\\Local\\Programs\\Python\\Python310\\python.exe"
 }
