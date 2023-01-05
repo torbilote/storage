@@ -9,3 +9,10 @@ def load_templated_sql(filename: str, **kwargs) -> str:
     template = environment.from_string(raw_sql)
     return template.render(**kwargs)
 print(load_templated_sql('query.sql', column='kol'))
+
+# Load json file and parse to dictionary
+import json
+def load_json_file_to_dict(file_path) -> None:
+    with open(file_path) as json_file:
+        data = json.load(json_file)
+    return data
