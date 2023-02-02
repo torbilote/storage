@@ -21,8 +21,11 @@
     "terminal.integrated.fontSize": 16,
     "terminal.integrated.defaultProfile.windows": "pwsh",
     "python.formatting.provider": "black",
+    "files.exclude": {
+        "**/__pycache__": true
+    },
     "codesnap.showWindowTitle": true,
-    "codesnap.shutterAction": "copy",
+    "codesnap.shutterAction": "copy" 
   }
   // Extensions
   // CodeSnap, Rainbow CSV, Thunder Client, YAML, OpenAPI (Swagger) Editor, WSL, Remote - SSH, GitLens - Git supercharged
