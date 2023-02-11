@@ -11,7 +11,7 @@ def load_templated_sql(filename: str, **kwargs) -> str:
 print(load_templated_sql('query.sql', column='kol'))
 
 # Load json file and parse to dictionary
-import json
+# import json
 def load_json_file_to_dict(file_path) -> None:
     with open(file_path) as json_file:
         data = json.load(json_file)
