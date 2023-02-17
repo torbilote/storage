@@ -17,18 +17,23 @@
       "color": "terminal.ansiGreen"
     },
     "pwsh": {
-      "path": "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe"
+      "path": "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe",
+      "color": "terminal.ansiYellow"
     }
   },
   "terminal.integrated.fontSize": 16,
-  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.defaultProfile.windows": "pwsh",
   "python.formatting.provider": "black",
-  "files.exclude": {
-    "**/__pycache__": true
+  "[python]": {
+    "editor.formatOnType": true
   },
   "codesnap.showWindowTitle": true,
   "codesnap.shutterAction": "copy",
   "redhat.telemetry.enabled": false,
+  "git.enableSmartCommit": true,
+  "files.exclude": {
+    "**/__pycache__": true
+  },
 }
 // Extensions
 // CodeSnap, GitLens - Git supercharged, OpenAPI (Swagger) Editor, Rainbow CSV, Thunder Client, YAML
