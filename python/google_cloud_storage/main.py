@@ -9,9 +9,7 @@ def list_buckets():
     """Lists all buckets."""
     storage_client = storage.Client(project=PROJECT_ID)
     buckets = storage_client.list_buckets()
-    print("LIST OF BUCKETS:")
-    for bucket in buckets:
-        print(bucket.name)
+    print("LIST OF BUCKETS:", *[bucket.name for bucket in buckets], sep='\n')
 
 
 def download_blob(bucket_name, source_file_name, destination_file_name):
@@ -51,6 +49,6 @@ bucket_file_name = "website/index.html"
 local_file_name = "website/index.html"
 
 list_buckets()
-upload_blob(bucket_name, bucket_file_name, local_file_name)
-download_blob(bucket_name, bucket_file_name, local_file_name)
-delete_blob(bucket_name, bucket_file_name)
+# upload_blob(bucket_name, bucket_file_name, local_file_name)
+# download_blob(bucket_name, bucket_file_name, local_file_name)
+# delete_blob(bucket_name, bucket_file_name)
