@@ -5,5 +5,5 @@ variable "project" {
 
 variable "credentials_file" {
   type        = string
-  description = "(Required) Path to service account credentials file."
+  description = "(Required) Path to service account credentials file. Set up in environment as TF_VAR_<variable_name>"
 }
