@@ -12,7 +12,7 @@ provider "google" {
 }
 
 
-resource "google_project_iam_binding" "storage_sa_role" {
+resource "google_project_iam_binding" "sa_role" {
   provider = google
   project  = var.project
   for_each = toset([
