@@ -22,7 +22,7 @@
     }
   },
   "terminal.integrated.fontSize": 16,
-  "terminal.integrated.defaultProfile.windows": "pwsh",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
   "python.formatting.provider": "black",
   "[python]": {
     "editor.formatOnType": true
@@ -34,7 +34,8 @@
   "git.confirmSync": false,
   "files.exclude": {
     "**/__pycache__": true
-  }
+  },
+  "terminal.integrated.enableMultiLinePasteWarning": false,
 }
 // Extensions
-// CodeSnap, GitLens - Git supercharged, OpenAPI (Swagger) Editor, Rainbow CSV, Thunder Client, YAML, Pylint, Docker, Terraform
+// CodeSnap, GitLens - Git supercharged, OpenAPI (Swagger) Editor, Rainbow CSV, Thunder Client, YAML, Pylint, Docker, HashiCorp Terraform
