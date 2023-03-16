@@ -19,7 +19,8 @@ resource "google_project_iam_binding" "sa_role" {
     "roles/iam.securityAdmin",
     "roles/storage.admin",
     "roles/secretmanager.admin",
-    "roles/pubsub.admin"
+    "roles/pubsub.admin",
+    "roles/bigquery.admin",
   ])
   role = each.key
   members = [
