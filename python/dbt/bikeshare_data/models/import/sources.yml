@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: source_data
+    database: norbert-lipinski-learning
+    schema: bigquery_public_data
+    tables:
+      - name: bikeshare_trips
+      - name: bikeshare_regions
+      - name: bikeshare_station_info
+      - name: bikeshare_station_status
+
