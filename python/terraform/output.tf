@@ -1,3 +1,4 @@
+
 output "bucket_name" {
   value       = google_storage_bucket.bucket.name
   description = "Bucket name"
@@ -13,4 +14,7 @@ output "google_pubsub_topic" {
 output "google_pubsub_subscription" {
   value       = google_pubsub_subscription.subscription.name
   description = "PubSub Subcription name"
+}
+output "google_bigquery_dataset" {
+  value = [for dataset in google_bigquery_dataset.dataset : dataset.dataset_id]
 }

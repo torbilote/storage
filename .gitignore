@@ -173,3 +173,4 @@ target/
 dbt_modules/
 logs/
 
+python/terraform/terraform-sa.json
