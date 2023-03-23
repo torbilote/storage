@@ -88,6 +88,14 @@ resource "google_bigquery_dataset" "dataset" {
     role          = "OWNER"
     user_by_email = var.sa_email
   }
+  access {
+    role          = "OWNER"
+    user_by_email = var.forecast_email
+  }
+  access {
+    role          = "OWNER"
+    user_by_email = var.sky_email
+  }
 
   access {
     role          = "READER"
