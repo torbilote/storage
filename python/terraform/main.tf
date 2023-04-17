@@ -85,7 +85,7 @@ resource "google_bigquery_dataset" "dataset" {
   dataset_id = each.key
   location   = "europe-west2"
   access {
-    role          = "OWNER"
+    role          = "EDITOR"
     user_by_email = var.sa_email
   }
   access {
@@ -93,7 +93,7 @@ resource "google_bigquery_dataset" "dataset" {
     user_by_email = var.forecast_email
   }
   access {
-    role          = "OWNER"
+    role          = "EDITOR"
     user_by_email = var.sky_email
   }
 
