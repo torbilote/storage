@@ -1,0 +1,55 @@
+
+version: 2
+
+models:
+  - name: import_bikeshare_trips
+    description: "Bikeshare trips model"
+    columns:
+      - name: trip_id
+        tests:
+            - unique
+            - not_null
+      - name: duration_sec
+        tests:
+          - not_null
+      - name: start_date
+      - name: start_station_name
+      - name: start_station_id
+      - name: end_date
+      - name: end_station_name
+      - name: end_station_id
+      - name: bike_number
+      - name: zip_code
+      - name: subscriber_type
+      - name: start_station_latitude
+      - name: start_station_longitude
+      - name: end_station_latitude
+      - name: end_station_longitude
+
+  - name: import_bikeshare_regions
+    columns:
+      - name: region_id
+      - name: name
+
+  - name: import_bikeshare_station_info
+    columns:
+      - name: station_id
+      - name: name
+      - name: short_name
+      - name: lat
+      - name: lon
+      - name: region_id
+      - name: rental_methods
+      - name: capacity
+
+  - name: import_bikeshare_station_status
+    columns:
+      - name: region_id
+      - name: num_bikes_available
+      - name: num_bikes_disabled
+      - name: num_docks_available
+      - name: num_docks_disabled
+      - name: is_installed
+      - name: is_renting
+      - name: is_returning
+      - name: last_reported
