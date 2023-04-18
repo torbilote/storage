@@ -1,26 +1,38 @@
-text_variable = "Text from line one, " + \
+# ---Basics---
+text1 = "Text from line one, " + \
                 "Text from line two, " + \
-                "Text from line three."
-
-text_variable_in_list = ["Text from line one, ",
+            "Text from line three."
+text2 = ["Text from line one, ",
                                 "Text from line two, ",
                 "Text from line three."]
-
-print(text_variable,
-      text_variable_in_list,
-      sep='\n')
-
-# Cool
-'''Also
-    Cool
+text3 = 'Text from line o\
+        ne and two'
+# Comment
+'''Also Comment
 '''
+print('First statement'); print('Second statement')
 
-print('a');print('b')
+# -- Integers --
+integer1 = 1000000000000244982325035 + 1
+integer2 = 0b10
+
+# -- Floats --
+float1 = 4.2242104210140
+float2 = 1.79e308
 
 
+# -- Booleans --
+assert True is 1
+assert False is 0
 
+# -- Strings --
+string1 = 'Hel\nlo'
+string2 = r'Hel\nlo'
+string3 = '{str!s} World!'.format(str=string1)
+string4 = 'Age of {num:e}'.format(num=integer1)
+# https://docs.python.org/3/library/string.html#string-formatting
 
-# Lists:
+# --- Lists ---
 lst = []
 lst = [1,2,3,5]
 list(lst)
@@ -60,14 +72,14 @@ a,b,*c = [1,2,3,5,6,7,8]
 # swap two values
 a, b = b, a
 
-# Tuples
+# --- Tuples ---
 tpl = ()
 tpl = (5,6,7,8)
 # accessing as in lists
 tpl[0]
 tpl[-1]
 
-# Dictionaries
+# --- Dictionaries ---
 dct = {}
 dct = {"a": 1, "b": 2}
 dct2 = {(1,2): 1}
@@ -91,7 +103,7 @@ dct["d"] = 5
 # unpacking
 dct2 = {'q':1, **dct}
 
-# Sets
+# --- Sets ---
 st = set()
 st = {1,2,3,4,5}
 # Add element
@@ -109,3 +121,5 @@ a - b
 a ^ b
 # Check if set on the left is a superset of the set on the right
 a >= b
+
+# --- Built-in functions --

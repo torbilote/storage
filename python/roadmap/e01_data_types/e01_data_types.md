@@ -1,4 +1,4 @@
-Syntax:
+# Basics:
 Name of variable, class, function or module has to start with a letter A-Z/a-z or underscore followed by zero or more letters, underscores and digits.
 Python does not support characters like @, $ and %.
 
@@ -21,14 +21,15 @@ Python accepts triple quotes to have multi-line string literals.
 You can insert more than one statement in single line separating them by semicolon.
 
 
-Data Types:
+# Data Types:
 Primitive:
 
-Numbers:
+Numbers (integers and floats):
 1+1, 1-1, 10*2, 35/5 - basic operations
 5//3 - rounded down to integer
 7%3 - modulo
 2**3 - exponentiation
+0b10 - binary representation
 
 Boolean:
 True, False - capitalization
@@ -54,9 +55,12 @@ String is treated as a set of characters.
 F-strings since 3.6 - expressions nested within string.
 Immutable. Cannot change an element of the string.
 
+Backslash \ for special action (escape). \n \t.
+Raw string r''
+
 None is an object.
 
-There is one line if else expression works as ternary operator
+There is one liner if else expression works as ternary operator
 'aaa' if 1 > 0 else 'bbb'
 
 Collections:
