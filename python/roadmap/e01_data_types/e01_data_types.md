@@ -22,8 +22,6 @@ You can insert more than one statement in single line separating them by semicol
 
 
 # Data Types:
-Primitive:
-
 Numbers (integers and floats):
 1+1, 1-1, 10*2, 35/5 - basic operations
 5//3 - rounded down to integer
@@ -48,12 +46,14 @@ Truthy values: All other
 "in" checks if existance of an object in list.
 
 Strings:
+String is treated as a set of characters.
+Immutable. Cannot change an element of the string.
+
 Can be added like 'aaa' + 'bbb'
 If only literals, can be concatenated without "+" like 'aaa' 'bbb'
 
-String is treated as a set of characters.
-F-strings since 3.6 - expressions nested within string.
-Immutable. Cannot change an element of the string.
+Formating: '{[expr][!conversion][:format_spec]}'.format(expr)
+F-strings since 3.6 - expressions nested within string: f'{[expr][!conversion][:format_spec]}'
 
 Backslash \ for special action (escape). \n \t.
 Raw string r''
@@ -63,12 +63,16 @@ None is an object.
 There is one liner if else expression works as ternary operator
 'aaa' if 1 > 0 else 'bbb'
 
-Collections:
-
+# Collections:
 Lists - set of elements ordered. Mutable (it means you can modify its' elements).
 Tuples - like lists but immutable.
 Dictionaries - store mappings from keys to values. Mutable however keys have to be immutable type to ensure key can be converted to a constant hash value for quick look-ups. These are numbers, strings and tuples. Order of elements is kept starting from Python 3.7.
 Sets - Mutable however elements have to be immutable type, order is not kept. There cannot be duplicated values within set.
+
+Hash - fixed sized integer that identifies a particular value. Each value has its own hash. For the same value we get the same hash (even if it is different object). Enables quick look-up of values in large collections. Every Python run hash for same value is different.
+
+# Built-in functions
+https://realpython.com/python-data-types/#built-in-functions
 
 
 

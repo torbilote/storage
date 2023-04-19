@@ -36,7 +36,8 @@
     "**/__pycache__": true
   },
   "terminal.integrated.enableMultiLinePasteWarning": false,
-  "workbench.iconTheme": "material-icon-theme"
+  "workbench.iconTheme": "material-icon-theme",
+  "notebook.lineNumbers": "on"
 }
 // Extensions
 // CodeSnap, GitLens - Git supercharged, OpenAPI (Swagger) Editor, Rainbow CSV, Thunder Client, YAML, Pylint, Docker, HashiCorp Terraform, Material Icon Theme, SQLite Viewer
