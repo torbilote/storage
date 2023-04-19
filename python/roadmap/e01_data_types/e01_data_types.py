@@ -32,6 +32,7 @@ string3 = '{str!s} World!'.format(str=string1)
 string4 = 'Age of {num:e}'.format(num=integer1)
 # https://docs.python.org/3/library/string.html#string-formatting
 
+
 # --- Lists ---
 lst = []
 lst = [1,2,3,5]
