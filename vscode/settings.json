@@ -9,6 +9,8 @@
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#245020"
   },
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Default Dark+",
   "explorer.confirmDelete": false,
   "explorer.autoReveal": "focusNoScroll",
   "terminal.integrated.profiles.windows": {
@@ -23,6 +25,8 @@
   },
   "terminal.integrated.fontSize": 16,
   "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.enableMultiLinePasteWarning": false,
+  "update.mode": "none",
   "python.formatting.provider": "black",
   "[python]": {
     "editor.formatOnType": true
@@ -35,8 +39,6 @@
   "files.exclude": {
     "**/__pycache__": true
   },
-  "terminal.integrated.enableMultiLinePasteWarning": false,
-  "workbench.iconTheme": "material-icon-theme",
   "notebook.lineNumbers": "on"
 }
 // Extensions
