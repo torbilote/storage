@@ -1,2 +1,2 @@
 # Storage
-Just a storage for my files
+Just a storage for my files.
