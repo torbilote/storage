@@ -24,7 +24,7 @@
     }
   },
   "terminal.integrated.fontSize": 16,
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": false,
   "update.mode": "none",
   "python.formatting.provider": "black",
@@ -39,7 +39,8 @@
   "files.exclude": {
     "**/__pycache__": true
   },
-  "notebook.lineNumbers": "on"
+  "notebook.lineNumbers": "on",
+  "jupyter.askForKernelRestart": false
 }
 // Extensions
 // CodeSnap, GitLens - Git supercharged, OpenAPI (Swagger) Editor, Rainbow CSV, Thunder Client, YAML, Pylint, Docker, HashiCorp Terraform, Material Icon Theme, SQLite Viewer
