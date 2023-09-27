@@ -10,7 +10,6 @@
     "titleBar.activeBackground": "#245020"
   },
   "workbench.iconTheme": "material-icon-theme",
-  "workbench.colorTheme": "Default Dark+",
   "explorer.confirmDelete": false,
   "explorer.autoReveal": "focusNoScroll",
   "terminal.integrated.profiles.windows": {
