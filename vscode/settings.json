@@ -16,30 +16,19 @@
     "Git Bash": {
       "source": "Git Bash",
       "color": "terminal.ansiGreen"
-    },
-    "pwsh": {
-      "path": "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe",
-      "color": "terminal.ansiYellow"
     }
   },
   "terminal.integrated.fontSize": 16,
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": false,
   "update.mode": "none",
-  "python.formatting.provider": "black",
-  "[python]": {
-    "editor.formatOnType": true
-  },
   "codesnap.showWindowTitle": true,
   "codesnap.shutterAction": "copy",
   "redhat.telemetry.enabled": false,
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
-  "files.exclude": {
-    "**/__pycache__": true
-  },
   "notebook.lineNumbers": "on",
   "jupyter.askForKernelRestart": false
 }
 // Extensions
-// CodeSnap, GitLens - Git supercharged, OpenAPI (Swagger) Editor, Rainbow CSV, Thunder Client, YAML, Pylint, Docker, HashiCorp Terraform, Material Icon Theme, SQLite Viewer
+// CodeSnap, Docker, GitLens, Jupyter, Material Icon Theme, OpenAPI (Swagger), Rainbow CSV, SQLite Viewer, Terraform, Thunder Client, YAML,
