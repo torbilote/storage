@@ -4,7 +4,7 @@
   "editor.fontSize": 16,
   "editor.minimap.enabled": false,
   "editor.bracketPairColorization.enabled": true,
-  "workbench.sideBar.location": "right",
+  "workbench.sideBar.location": "left",
   "workbench.editor.tabCloseButton": "off",
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#245020"
