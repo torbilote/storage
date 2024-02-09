@@ -1,16 +1,23 @@
 # py-template
 py-template
 
-py -m pip install poetry
+# Set up environment
+py -m pip install pip --upgrade
+py -m pip install virtualenv
+py -m virtualenv .venv --python=python3.xx -v
+.venv/Scripts/Activate
+py -m pip install -r -requirements.txt
 
-poetry add <dependency>
+# Run Ruff
+ruff check . --fix -v
+ruff format . -v
 
-black .
+# Run Pyright
+pyright --verbose
 
-isort . --profile black
-
-pylint --rcfile .pylintrc --output-format=colorized .
-
-mypy --config-file mypy.ini --strict .
-
+# Run Pytest
 pytest -vv
+
+# Run snoop
+import snoop
+Add @snoop decorator to any function
