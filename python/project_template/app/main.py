@@ -1,13 +1,10 @@
-"""Main module"""
-
 from app.config import PROJECT_ID
+import snoop
 
-
+@snoop
 def main() -> str:
-    """Main function"""
-
-    print(PROJECT_ID)
-    return PROJECT_ID
+    project_id = PROJECT_ID
+    return project_id
 
 
 if __name__ == "__main__":
