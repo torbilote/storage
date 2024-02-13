@@ -15,3 +15,14 @@ def load_json_file_to_dict(file_path: str) -> dict:
     with open(file_path) as json_file:
         data = json.load(json_file)
     return data
+
+def decorator(func):
+    import functools
+
+    @functools.wraps(func)
+    def wrapper_decorator(*args, **kwargs):
+        # Do something before
+        value = func(*args, **kwargs)
+        # Do something after
+        return value
+    return wrapper_decorator

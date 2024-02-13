@@ -20,4 +20,8 @@ pytest -vv
 
 # Run snoop
 import snoop
-Add @snoop decorator to any function
+Add @snoop decorator
+
+# Run loguru
+from loguru import logger
+Add logger.info('')
