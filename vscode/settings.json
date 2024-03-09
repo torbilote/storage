@@ -5,7 +5,6 @@
   "editor.minimap.enabled": false,
   "editor.bracketPairColorization.enabled": true,
   "workbench.sideBar.location": "left",
-  "workbench.editor.tabCloseButton": "off",
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#245020"
   },
@@ -20,15 +19,23 @@
   },
   "terminal.integrated.fontSize": 16,
   "terminal.integrated.defaultProfile.windows": "Git Bash",
-  "terminal.integrated.enableMultiLinePasteWarning": false,
-  "update.mode": "none",
+  "update.mode": "manual",
   "codesnap.showWindowTitle": true,
   "codesnap.shutterAction": "copy",
   "redhat.telemetry.enabled": false,
-  "git.enableSmartCommit": true,
-  "git.confirmSync": false,
   "notebook.lineNumbers": "on",
   "jupyter.askForKernelRestart": false
 }
-// Extensions
-// CodeSnap, Docker, GitLens, Jupyter, Material Icon Theme, OpenAPI (Swagger), Rainbow CSV, SQLite Viewer, Terraform, Thunder Client, YAML, Even Better TOML
+//  !! Extensions !!
+// CodeSnap,
+// Docker,
+// GitLens,
+// Jupyter,
+// Material Icon Theme,
+// OpenAPI (Swagger),
+// Rainbow CSV,
+// SQLite Viewer,
+// Terraform,
+// Thunder Client,
+// YAML,
+// Even Better TOML
