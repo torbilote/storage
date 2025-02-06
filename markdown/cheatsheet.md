@@ -1,4 +1,4 @@
-# Markdown cheatsheet
+# cheatsheet
 
 # H1
 
