@@ -1,8 +1,6 @@
 {
   "files.autoSave": "onFocusChange",
-  "files.trimTrailingWhitespace": true,
   "editor.fontSize": 16,
-  "editor.minimap.enabled": false,
   "editor.bracketPairColorization.enabled": true,
   "workbench.sideBar.location": "left",
   "workbench.colorCustomizations": {
@@ -11,35 +9,15 @@
   "workbench.iconTheme": "material-icon-theme",
   "explorer.confirmDelete": false,
   "explorer.autoReveal": "focusNoScroll",
-  "terminal.integrated.profiles.windows": {
-    "Git Bash": {
-      "source": "Git Bash",
-      "color": "terminal.ansiGreen"
-    }
-  },
-  "terminal.integrated.fontSize": 16,
-  "terminal.integrated.defaultProfile.windows": "Git Bash",
-  "update.mode": "manual",
   "codesnap.showWindowTitle": true,
-  "codesnap.shutterAction": "copy",
-  "redhat.telemetry.enabled": false,
-  "notebook.lineNumbers": "on",
-  "jupyter.askForKernelRestart": false
+  "codesnap.shutterAction": "copy"
 }
 //  !! Extensions !!
-// CodeSnap,
-// Docker,
-// Even Better TOML
-// GitLens,
-// Jupyter,
-// Material Icon Theme,
-// OpenAPI (Swagger),
 // Python,
+// CodeSnap,
+// Even Better TOML
+// GitLess,
+// Material Icon Theme,
 // Rainbow CSV,
-// SQLite Viewer,
-// Terraform,
-// Thunder Client,
 // YAML,
-// Github Actions
 // Markdown All in One
-// Dev Containers
