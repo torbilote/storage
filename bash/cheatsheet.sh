@@ -104,8 +104,47 @@ $_	The underscore variable is set at shell startup and contains the absolute fil
 !important	
 The implementation of "$*" has always been a problem and realistically should have been replaced with the behavior of "$@". In almost every case where coders use "$*", they mean "$@". "$*" Can cause bugs and even security holes in your software.
 
+Backslash character are used to remove the special meaning of a single character. \. (except of newline).
 
+Single quotes are used to preserve the literal value of all characters enclosed within the quotes. ''.
+A single quote cannot occur between single quotes, even preceded by a backslash.
 
+Double quotes are used to  preserve the literal value of all characters except for dollar sign $, backticks `` and backshlash \.
+Dolar and backticks retain their special meanining whereas backslash retains its meaning ONLY when followed by dollar, backtick, double quote, backslash or newline.
+Within double quotes, the backslashes are removed 
+In zsh use echo with -E flag to have the same effect as echo in bash (-E flag preserves backslashes when its followed by something other than dollar etc. )
 
+tx=hello
+echo -E $tx => hello
+echo -E \$tx => $tx
+
+echo -E 'hey $tx \t \$pzdr tab' => hey $tx \t \$pzdr tab
+echo -E "hey $tx \t \$pzdr tab" => hey hello \t $pzdr tab
+echo    "hey $tx \t \$pzdr tab" => hey hello        $pzdr tab
+echo    'hey $tx \t \$pzdr tab' => hey $tx          \$pzdr tab
+
+Backtick is used when you want to embed the command within your command. Everything between backticks is evaluated(executed) before the main command and the output is consumed by main command.
+echo -E "hey `date`" => hey Wed Feb 19 17:41:32 CET 2025
+
+Brace expansion can generate arbitraty strings.
+<optional_prefix>{words,separated,by,comma}<optional suffix>
+echo -E hello{" you"," me"}!
+
+$ character introduces parameter expansion, command substitution or arithmetic expansion.
+Parameter expansion:
+tx=hello
+echo "${tx}world" - is required so the latter part of the string is not interpreted as var name.
+
+Command subsitution:
+echo "today is $(date)" - date command is executed and its output replaces itself. Same as with backticks.
+
+Arithmetic expansion:
+echo $((5**1-2)) - allows the evaluation of arithmetic expression
+echo $[5**1-2] - another format
+
+File name expansion:
+Special characters used for it: * ? [ ]
+If one of these chars is used in the word, then it is regarded as a pattern.
+???
 
 
