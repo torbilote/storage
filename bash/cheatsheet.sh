@@ -147,4 +147,72 @@ Special characters used for it: * ? [ ]
 If one of these chars is used in the word, then it is regarded as a pattern.
 ???
 
+Alias allows a string to be substituted for a word when it is used as the first word of a simple command.
+alias without options display a list of aliases known in current shell.
+alias lll="ls -l"
+Aliases are not inherited by child processes.
+
+Display all bash options:
+set -o
+
+Regular expression is a pattern that describes a set of strings.
+Most characters including letters and digits are regular expressions that match themselves.
+Any metacharacter with special meaning may be quoted by preceding it with a backslash.
+Two regexps may be concatenated resulting any string formed by two substrings that respectively match subexpressions.
+Two regexps may be joined by infix "|" resulting any string matching either subexpression.
+In basic regexp the metacharacters "?", "+", "{" , "|"m "(" lose their special meaning. instead use backslashed versions \? \+ ...
+
+re operators:
+.	Matches any single character.
+?	The preceding item is optional and will be matched, at most, once.
+*	The preceding item will be matched zero or more times.
++	The preceding item will be matched one or more times.
+{N}	The preceding item is matched exactly N times.
+{N,}	The preceding item is matched N or more times.
+{N,M}	The preceding item is matched at least N times, but not more than M times.
+-	represents the range if it's not first or last in a list or the ending point of a range in a list.
+^	Matches the empty string at the beginning of a line; also represents the characters not in the range of a list.
+$	Matches the empty string at the end of a line.
+\b	Matches the empty string at the edge of a word.
+\B	Matches the empty string provided it's not at the edge of a word.
+\<	Match the empty string at the beginning of word.
+\>	Match the empty string at the end of word.
+
+grep searches the input files for lines containing a match to a given pattern list.
+newline is a separator for the list of patterns.
+grep -n adds line number
+
+A bracket expression is a list of characters enclosed by [ ]. It matches any single character in that list. If the first character starts with ^
+then it matches any character not in the list.
+
+Within bracket expression you can use range expression, two characters sepearated by a hyphen. Its local sequence of characters.
+[a-d] is equal [abcd]
+
+Character classes like "alnum", "alpha" "ascii" "digit" "upper" can be specified using syntax [:CLASS:]
+ls [[:digit]]*
+
+sed - Stream EDitor - used to perform basic transformations on text read from a file or a pipe.
+Result sent to standard output by default. Redirect if you want to save it to file.
+sed can perform text pattern substitutions and deletions.
+
+sed editing commands:
+a\	Append text below current line.
+c\	Change text in the current line with new text.
+d	Delete text.
+i\	Insert text above current line.
+p	Print text.
+r	Read a file.
+s	Search and replace text.
+w	Write to a file.
+
+sed options:
+-e SCRIPT	Add the commands in SCRIPT to the set of commands to be run while processing the input.
+-f	Add the commands contained in the file SCRIPT-FILE to the set of commands to be run while processing the input.
+-n	Silent mode.
+-V	Print version information and exit.
+
+sed -n '/erors/p' example - print matched lines
+sed '/erors/d' example - print all but matched lines
+sed 's/erors/errors/g' example - search and replace all occurances in each line
+sed 's/^/> /' example - insert char at the beginning of each line
 
