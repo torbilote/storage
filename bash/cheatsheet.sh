@@ -216,3 +216,92 @@ sed '/erors/d' example - print all but matched lines
 sed 's/erors/errors/g' example - search and replace all occurances in each line
 sed 's/^/> /' example - insert char at the beginning of each line
 
+awk - another stream editor (and programming language) basic function is to search files for lines or other text units containing one or more patterns.
+When a line matches one of the patterns, special actions are performed on that line.
+
+ls -l | grep a | awk '{ print "hello "$9"" }'
+
+formatting characters for awk
+\a	Bell character
+\n	Newline character
+\t	Tab
+
+In order to precede and follow output with comments, use the BEGIN and END statements:
+ls -l | awk 'BEGIN {print "Files found:\n"} /\<[a-z].*$/ { print $0} END { print "Thank you" }'
+
+df -h - show informatino about the file system.
+
+$FS - built-in variable stands for field separator (different than IFS variable). It is a single char or regular exp - controls the way awk splits up an input into fields.
+awk 'BEGIN { FS=":" } { print $1 "\t" $5 }' /etc/passwd
+
+$OFS output field separator
+$ORS output record separator
+$NR - number of processed records
+
+use printf instead of print to have even more control
+
+conditional statements
+
+if TEST-COMMAND; then CONSEQUENT-COMMAND; else ALTERNATIVE-COMMAND; fi
+
+returned status 0 - when succeeded, some other status otherwise
+
+The table below contains an overview of the so-called "primaries" that make up the TEST-COMMAND command.
+Primaries are put between square brackets to indicate the conditional expresion
+Primary	Meaning
+[ -a FILE ]	True if FILE exists.
+[ -d FILE ]	True if FILE exists and is a directory.
+[ -e FILE ]	True if FILE exists.
+[ -f FILE ]	True if FILE exists and is a regular file.
+[ -r FILE ]	True if FILE exists and is readable.
+[ -s FILE ]	True if FILE exists and has a size greater than zero.
+[ -w FILE ]	True if FILE exists and is writable.
+[ -x FILE ]	True if FILE exists and is executable.
+[ -O FILE ]	True if FILE exists and is owned by the effective user ID.
+[ -G FILE ]	True if FILE exists and is owned by the effective group ID.
+[ -z STRING ]	True if the length of "STRING" is zero.
+[ -n STRING ] or [ STRING ]	True if the length of "STRING" is non-zero.
+[ STRING1 == STRING2 ]	True if the strings are equal. "=" may be used instead of "==" for strict POSIX compliance.
+[ STRING1 != STRING2 ]	True if the strings are not equal.
+[ STRING1 < STRING2 ]	True if "STRING1" sorts before "STRING2" lexicographically in the current locale.
+[ STRING1 > STRING2 ]	True if "STRING1" sorts after "STRING2" lexicographically in the current locale.
+[ ARG1 OP ARG2 ]	"OP" is one of -eq, -ne, -lt, -le, -gt or -ge. These arithmetic binary operators return true if "ARG1" 
+is equal to, not equal to, less than, less than or equal to, greater than, or greater than or equal to "ARG2", respectively.
+"ARG1" and "ARG2" are integers.
+
+Combining expressions
+Operation	Effect
+[ ! EXPR ]	True if EXPR is false.
+[ ( EXPR ) ]	Returns the value of EXPR. This may be used to override the normal precedence of operators.
+[ EXPR1 -a EXPR2 ]	True if both EXPR1 and EXPR2 are true.
+[ EXPR1 -o EXPR2 ]	True if either EXPR1 or EXPR2 is true.
+
+if [ -f /var/log/messages ]
+  then
+    echo "/var/log/messages exists."
+fi
+
+if [ $? -eq 0 ]
+    then echo 'That was a good job!'
+fi
+
+Shorten version
+[ $? -eq 0 ] && (echo 'That was a good job!')
+
+&& expression indicates command to execute if the preceding command proves true
+|| expression indicates command to execute if the preceding command proves false
+
+test built-in cmd as alternative
+test $? -eq 0 && (echo 'That was a good job!')
+
+
+if [ $? -eq 0 ] ; then echo 2 ; fi
+vs
+if [[ $? -eq 0 ]] ; then echo 2 ; fi
+Contrary to [, [[ prevents word splitting of variable values. So, if VAR="var with spaces", 
+you do not need to double quote $VAR in a test - eventhough using quotes remains a good habit.
+Also, [[ prevents pathname expansion, so literal strings with wildcards do not try to expand to filenames.
+Using [[, == and != interpret strings to the right as shell glob patterns to be matched against the value to the left,
+for instance: [[ "value" == val* ]].
+
+
