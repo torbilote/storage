@@ -181,6 +181,7 @@ $	Matches the empty string at the end of a line.
 grep searches the input files for lines containing a match to a given pattern list.
 newline is a separator for the list of patterns.
 grep -n adds line number
+grep -v returns all that don't match the pattern.
 
 A bracket expression is a list of characters enclosed by [ ]. It matches any single character in that list. If the first character starts with ^
 then it matches any character not in the list.
@@ -242,7 +243,7 @@ use printf instead of print to have even more control
 
 conditional statements
 
-if TEST-COMMAND; then CONSEQUENT-COMMAND; else ALTERNATIVE-COMMAND; fi
+if TEST-COMMAND; then CONSEQUENT-COMMAND; elif MORE-TEST-COMMAND; then MORE-CONSEQUENT-COMMAND; else ALTERNATIVE-COMMAND; fi
 
 returned status 0 - when succeeded, some other status otherwise
 
@@ -304,4 +305,90 @@ Also, [[ prevents pathname expansion, so literal strings with wildcards do not t
 Using [[, == and != interpret strings to the right as shell glob patterns to be matched against the value to the left,
 for instance: [[ "value" == val* ]].
 
+sort -n sorts ascending
+tail -1 takes last record
+head -1 takes first record
+cut prints selected part of line
+
+Boolean operators AND (&&) and OR (||)
+
+exit - terminates the execution of entire script. Takes status code as optional argument (passed back as and stored in $? variable)
+0 status code means script runs successfully.
+
+
+case EXPRESSION in
+case1) COMMANDS;;
+case2) COMMANDS;;
+*) COMMANDS;;
+esac
+
+example: case $dd in "siem") echo 1;; "siema") echo 2;; *) echo 3;; esac
+
+echo -e - interprets backslash-escaped characters
+echo -n - no new line at the end
+
+Other sequence used by echo command:
+Sequence	Meaning
+\a	Alert (bell).
+\b	Backspace.
+\c	Suppress trailing newline.
+\e	Escape.
+\f	Form feed.
+\n	Newline.
+\r	Carriage return.
+\t	Horizontal tab.
+\v	Vertical tab.
+\\	Backslash.
+
+read built-in is counterpart of echo. It reads a line from the standard input or from the file supplied.
+read [options] name1 name2 ... nameN
+first word of line is assigned to first name, second to second name and so on..
+leftover words assigned to the last name.
+If fewer words than read names, the reamining names are empty.
+If no names supplied, line read is assigned to variable REPLY.
+
+
+Option	Meaning
+-a ANAME	The words are assigned to sequential indexes of the array variable ANAME, starting at 0. All elements are removed from ANAME before the assignment. Other NAME arguments are ignored.
+-d DELIM	The first character of DELIM is used to terminate the input line, rather than newline.
+-e	readline is used to obtain the line.
+-n NCHARS	read returns after reading NCHARS characters rather than waiting for a complete line of input.
+-p PROMPT	Display PROMPT, without a trailing newline, before attempting to read any input. The prompt is displayed only if input is coming from a terminal.
+-r	If this option is given, backslash does not act as an escape character. The backslash is considered to be part of the line. In particular, a backslash-newline pair may not be used as a line continuation.
+-s	Silent mode. If input is coming from a terminal, characters are not echoed.
+-t TIMEOUT	Cause read to time out and return failure if a complete line of input is not read within TIMEOUT seconds. This option has no effect if read is not reading input from the terminal or from a pipe.
+-u FD	Read input from file descriptor FD.
+
+Input and output can be redirected before it is executed using redirection operators.
+Redirection also can be used to open/close files for current shell.
+
+The file descriptors are numeric values that tracks all files for given process.
+The best known file descriptors are stdin, stdout and stderr with numbers 0, 1 and 2 respectively. These numbers are reserved.
+
+To redirect stdout to file.txt:
+echo "test" > file.txt
+or
+echo "test" 1> file.txt (since stdout file descriptor is 1)
+
+To redirect stderr to file.txt:
+echo "test" 2> file.txt
+
+>& is the syntax to redirect a stream to another file descriptor so:
+to redirect stdout to stderr:
+echo "test" 1>&2
+or
+echo "test" >&2
+
+ti redurect stderr to stdout:
+echo "test" 2>&1
+
+> means overwrite target if exists
+>> means append to target if exists
+both creates file if does not exist
+
+Order of redirections matters!
+
+ls -ld /tmp /tnt >file 2>&1  - first redirects stdout to file. then redirects stderr to the current stdout (which is file). Both streams points to file.
+ls -ld /tmp /tnt 2>&1 >file - first redirects stderr to current stdout (terminal). then redirects stdout to file - it has no effect on previous stderr redirection as it was locked-in to whatever stdout was defined as. 
+Effect: stderr points to terminal, stdout points to file.
 
