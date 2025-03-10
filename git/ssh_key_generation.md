@@ -35,10 +35,42 @@
 
 ---
 
-## Testing Your Connection to GitHub
-1. Run the following command to test your connection to GitHub:
+## Defining your SSH config file for multiple GitHub accounts
+1. create config file
+   ```bash
+   touch $HOME/.ssh/config
+   ```
+2. paste the following
     ```bash
-    ssh -vT git@github.com
+        Host github-valtech
+        HostName github.com
+        User norbert-lipinski_valtech
+        IdentityFile ~/.ssh/valtech-worklaptop
+        IdentitiesOnly yes
+        AddKeysToAgent yes
+
+    Host github-torbilote
+        HostName github.com
+        User torbilote
+        IdentityFile ~/.ssh/torbilote-worklaptop
+        IdentitiesOnly yes
+        AddKeysToAgent yes
     ```
 
+## Testing Your Connection to GitHub
+1. run to add your defined hosts to known_hosts file
+   ```bash
+   ssh-keyscan github.com >> $HOME/.ssh/known_hosts 
+   ```
+2. Run the following command to test your connection to GitHub:
+    ```bash
+    ssh -vT git@github-torbilote.com
+    ```
+
+## Modyfing your remote origin url in your exisitng repository
+1. run
+   ```bash
+   git remote set-url origin git@github-torbilote:<gh_account>/<gh_repo>.git
+    ```
+    
 ---

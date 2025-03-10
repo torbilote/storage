@@ -1,0 +1,13 @@
+Host github-valtech
+    HostName github.com
+    User norbert-lipinski_valtech
+    IdentityFile ~/.ssh/valtech-worklaptop
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+
+Host github-torbilote
+    HostName github.com
+    User torbilote
+    IdentityFile ~/.ssh/torbilote-worklaptop
+    IdentitiesOnly yes
+    AddKeysToAgent yes
