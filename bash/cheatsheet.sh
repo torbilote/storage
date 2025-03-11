@@ -410,3 +410,81 @@ ls >&7
 close file descriptor if no longer needed (as child processes inherit open file descriptors)
 exec fd<&-
 
+for loop:
+for NAME [in LIST]; do COMMANDS; done
+If [in LIST] is not present, it is replaced with in $@ and for executes the COMMANDS once for each positional parameter
+NAME - any variable name (although i is used very often)
+LIST - list of words, strings or numbers
+for i in "$(ls)"; do echo $i ; done
+
+while CONTROL_COMMAND; do CONSEQUENT_COMMAND; done
+n=10
+while [ $n -lt 20 ]; do echo "$n" && n=$[$n+1]
+
+until TEST_COMMAND; do CONSEQUENT_COMMAND; done
+until is opposite to while - the loop executes until TEST_COMMAND fails.
+
+break is used to exit current loop
+
+continue resumes iteration of the current loop.
+
+select construct allows easy menu generation.
+select WORD [in LIST]; do RESPECTIVE-COMMANDS; done
+select file in $(ls); do echo $file; done
+
+shift built-in command takes one integer argument. Positional parameters are shifed to the left by this number.
+Say you have a command that takes 10 arguments, and you pass 4 as an argument.
+Then $4 becomes $1, $5 becomes $2 and so on. Original $1 $2 and $3 are thrown away in this case. 
+
+use declare statement when you want to limit value assignmnet to variables.
+declare OPTION(s) VARIABLE=value
+
+Option	Meaning
+-a	Variable is an array.
+-f	Use function names only.
+-i	The variable is to be treated as an integer; arithmetic evaluation is performed when the variable is assigned a value (see Section 3.4.6).
+-p	Display the attributes and values of each variable. When -p is used, additional options are ignored.
+-r	Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset.
+-t	Give each variable the trace attribute.
+-x	Mark each variable for export to subsequent commands via the environment.
+
+declare -r dd=hello
+
+declare creates local variables when used witin a function.
+
+readonly built-in makrs variable as unchangeable.
+readonly 
+
+Array is a variable containing multiple values. No max size limit. First element has 0 index.
+
+declare -a arrayname=(1 2 3)
+arrayname=(1 2 3)
+
+arrayname[indexnr] = value
+
+To refer to the array
+echo ${arrayname[*]} - get all members
+echo ${arrayname[@]} - get all members
+echo ${arrayname[indexnr]} - get nth item
+
+unset arrayname[n] - delete nth item
+unset arrayname - delete array
+
+check the length of variable
+echo ${#varname}
+
+strip the variable
+echo ${varname:offset:length}
+
+delete the leadning portion of WORD by pattern matching in VAR
+echo ${varname#word} - shortest matching pattern
+echo ${varname##word} - longest matching pattern
+d=siema && echo ${d#s?}
+
+delete the trailing portion
+echo ${varname%word}
+echo ${varname%%word}
+
+replacing portion
+echo ${varname/pattern/string} - only first match
+echo ${varname//pattern/string} - all matches
