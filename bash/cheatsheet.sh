@@ -379,7 +379,7 @@ echo "test" 1>&2
 or
 echo "test" >&2
 
-ti redurect stderr to stdout:
+to redirect stderr to stdout:
 echo "test" 2>&1
 
 > means overwrite target if exists
@@ -391,4 +391,22 @@ Order of redirections matters!
 ls -ld /tmp /tnt >file 2>&1  - first redirects stdout to file. then redirects stderr to the current stdout (which is file). Both streams points to file.
 ls -ld /tmp /tnt 2>&1 >file - first redirects stderr to current stdout (terminal). then redirects stdout to file - it has no effect on previous stderr redirection as it was locked-in to whatever stdout was defined as. 
 Effect: stderr points to terminal, stdout points to file.
+
+&>file - this syntax is like "1>file 2>file" however file is opened only once (doesnt lead to mulfunction)
+
+Use redirection to /dev/null if you want to run command no matter what the output or errors it gives
+ls -ld /tmp /tnt &>/dev/null
+
+To redirect to your current terminal instance:
+&>$(tty)
+
+exec command can be used to: 1) replace the shell of the current process 2) alter the file descriptors of the current shell.
+exec >file
+
+you can define your own file descriptor for example to save the original value of stdin before stdin is changed
+exec 7>&1
+ls >&7
+
+close file descriptor if no longer needed (as child processes inherit open file descriptors)
+exec fd<&-
 
