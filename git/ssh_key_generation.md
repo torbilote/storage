@@ -64,7 +64,7 @@
    ```
 2. Run the following command to test your connection to GitHub:
     ```bash
-    ssh -vT git@github-torbilote.com
+    ssh -v git@github-torbilote
     ```
 
 ## Modyfing your remote origin url in your exisitng repository
