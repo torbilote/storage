@@ -488,3 +488,25 @@ echo ${varname%%word}
 replacing portion
 echo ${varname/pattern/string} - only first match
 echo ${varname//pattern/string} - all matches
+
+function is a group of command.
+Is executed within the shell in which it was declared. No new process created.
+
+function FUNCTION { COMMANDS; }
+or
+FUNCTION () { COMMANDS; }
+
+function accepts positional parameters.
+$FUNCNAME is set to the name of the function during its execution.
+
+if return executed in a function, it completed its execution.
+if umeric argument is given to return, that status is returned.
+When variable is set within the function, it remains after function execution.
+ 
+test () 
+{
+echo "Pos parameter 1 is $1"
+}
+
+test par1
+

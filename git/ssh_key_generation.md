@@ -42,7 +42,7 @@
    ```
 2. paste the following
     ```bash
-        Host github-valtech
+    Host github-valtech
         HostName github.com
         User norbert-lipinski_valtech
         IdentityFile ~/.ssh/valtech-worklaptop
