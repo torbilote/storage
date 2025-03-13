@@ -90,18 +90,18 @@ The positional parameters are the words following the name of a shell script.
 They are put into the variables $1, $2, $3 and so on. 
 
 There are several parameters treated specially. Can be only referenced.
-Character	Definition
-$*	Expands to the positional parameters, starting from one. When the expansion occurs within double quotes, it expands to a single word with the value of each parameter separated by the first character of the IFS special variable.
-$@	Expands to the positional parameters, starting from one. When the expansion occurs within double quotes, each parameter expands to a separate word.
-$#	Expands to the number of positional parameters in decimal.
-$?	Expands to the exit status of the most recently executed foreground pipeline.
-$-	A hyphen expands to the current option flags as specified upon invocation, by the set built-in command, or those set by the shell itself (such as the -i).
-$$	Expands to the process ID of the shell.
-$!	Expands to the process ID of the most recently executed background (asynchronous) command.
-$0	Expands to the name of the shell or shell script.
-$_	The underscore variable is set at shell startup and contains the absolute file name of the shell or script being executed as passed in the argument list. Subsequently, it expands to the last argument to the previous command, after expansion. It is also set to the full pathname of each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file.
+Character   Definition
+$*  Expands to the positional parameters, starting from one. When the expansion occurs within double quotes, it expands to a single word with the value of each parameter separated by the first character of the IFS special variable.
+$@  Expands to the positional parameters, starting from one. When the expansion occurs within double quotes, each parameter expands to a separate word.
+$#  Expands to the number of positional parameters in decimal.
+$?  Expands to the exit status of the most recently executed foreground pipeline.
+$-  A hyphen expands to the current option flags as specified upon invocation, by the set built-in command, or those set by the shell itself (such as the -i).
+$$  Expands to the process ID of the shell.
+$!  Expands to the process ID of the most recently executed background (asynchronous) command.
+$0  Expands to the name of the shell or shell script.
+$_  The underscore variable is set at shell startup and contains the absolute file name of the shell or script being executed as passed in the argument list. Subsequently, it expands to the last argument to the previous command, after expansion. It is also set to the full pathname of each command executed and placed in the environment exported to that command. When checking mail, this parameter holds the name of the mail file.
 
-!important	
+!important  
 The implementation of "$*" has always been a problem and realistically should have been replaced with the behavior of "$@". In almost every case where coders use "$*", they mean "$@". "$*" Can cause bugs and even security holes in your software.
 
 Backslash character are used to remove the special meaning of a single character. \. (except of newline).
@@ -163,20 +163,20 @@ Two regexps may be joined by infix "|" resulting any string matching either sube
 In basic regexp the metacharacters "?", "+", "{" , "|"m "(" lose their special meaning. instead use backslashed versions \? \+ ...
 
 re operators:
-.	Matches any single character.
-?	The preceding item is optional and will be matched, at most, once.
-*	The preceding item will be matched zero or more times.
-+	The preceding item will be matched one or more times.
-{N}	The preceding item is matched exactly N times.
-{N,}	The preceding item is matched N or more times.
-{N,M}	The preceding item is matched at least N times, but not more than M times.
--	represents the range if it's not first or last in a list or the ending point of a range in a list.
-^	Matches the empty string at the beginning of a line; also represents the characters not in the range of a list.
-$	Matches the empty string at the end of a line.
-\b	Matches the empty string at the edge of a word.
-\B	Matches the empty string provided it's not at the edge of a word.
-\<	Match the empty string at the beginning of word.
-\>	Match the empty string at the end of word.
+.   Matches any single character.
+?   The preceding item is optional and will be matched, at most, once.
+*   The preceding item will be matched zero or more times.
++   The preceding item will be matched one or more times.
+{N} The preceding item is matched exactly N times.
+{N,}    The preceding item is matched N or more times.
+{N,M}   The preceding item is matched at least N times, but not more than M times.
+-   represents the range if it's not first or last in a list or the ending point of a range in a list.
+^   Matches the empty string at the beginning of a line; also represents the characters not in the range of a list.
+$   Matches the empty string at the end of a line.
+\b  Matches the empty string at the edge of a word.
+\B  Matches the empty string provided it's not at the edge of a word.
+\<  Match the empty string at the beginning of word.
+\>  Match the empty string at the end of word.
 
 grep searches the input files for lines containing a match to a given pattern list.
 newline is a separator for the list of patterns.
@@ -197,20 +197,20 @@ Result sent to standard output by default. Redirect if you want to save it to fi
 sed can perform text pattern substitutions and deletions.
 
 sed editing commands:
-a\	Append text below current line.
-c\	Change text in the current line with new text.
-d	Delete text.
-i\	Insert text above current line.
-p	Print text.
-r	Read a file.
-s	Search and replace text.
-w	Write to a file.
+a\  Append text below current line.
+c\  Change text in the current line with new text.
+d   Delete text.
+i\  Insert text above current line.
+p   Print text.
+r   Read a file.
+s   Search and replace text.
+w   Write to a file.
 
 sed options:
--e SCRIPT	Add the commands in SCRIPT to the set of commands to be run while processing the input.
--f	Add the commands contained in the file SCRIPT-FILE to the set of commands to be run while processing the input.
--n	Silent mode.
--V	Print version information and exit.
+-e SCRIPT   Add the commands in SCRIPT to the set of commands to be run while processing the input.
+-f  Add the commands contained in the file SCRIPT-FILE to the set of commands to be run while processing the input.
+-n  Silent mode.
+-V  Print version information and exit.
 
 sed -n '/erors/p' example - print matched lines
 sed '/erors/d' example - print all but matched lines
@@ -223,9 +223,9 @@ When a line matches one of the patterns, special actions are performed on that l
 ls -l | grep a | awk '{ print "hello "$9"" }'
 
 formatting characters for awk
-\a	Bell character
-\n	Newline character
-\t	Tab
+\a  Bell character
+\n  Newline character
+\t  Tab
 
 In order to precede and follow output with comments, use the BEGIN and END statements:
 ls -l | awk 'BEGIN {print "Files found:\n"} /\<[a-z].*$/ { print $0} END { print "Thank you" }'
@@ -249,33 +249,33 @@ returned status 0 - when succeeded, some other status otherwise
 
 The table below contains an overview of the so-called "primaries" that make up the TEST-COMMAND command.
 Primaries are put between square brackets to indicate the conditional expresion
-Primary	Meaning
-[ -a FILE ]	True if FILE exists.
-[ -d FILE ]	True if FILE exists and is a directory.
-[ -e FILE ]	True if FILE exists.
-[ -f FILE ]	True if FILE exists and is a regular file.
-[ -r FILE ]	True if FILE exists and is readable.
-[ -s FILE ]	True if FILE exists and has a size greater than zero.
-[ -w FILE ]	True if FILE exists and is writable.
-[ -x FILE ]	True if FILE exists and is executable.
-[ -O FILE ]	True if FILE exists and is owned by the effective user ID.
-[ -G FILE ]	True if FILE exists and is owned by the effective group ID.
-[ -z STRING ]	True if the length of "STRING" is zero.
-[ -n STRING ] or [ STRING ]	True if the length of "STRING" is non-zero.
-[ STRING1 == STRING2 ]	True if the strings are equal. "=" may be used instead of "==" for strict POSIX compliance.
-[ STRING1 != STRING2 ]	True if the strings are not equal.
-[ STRING1 < STRING2 ]	True if "STRING1" sorts before "STRING2" lexicographically in the current locale.
-[ STRING1 > STRING2 ]	True if "STRING1" sorts after "STRING2" lexicographically in the current locale.
-[ ARG1 OP ARG2 ]	"OP" is one of -eq, -ne, -lt, -le, -gt or -ge. These arithmetic binary operators return true if "ARG1" 
+Primary Meaning
+[ -a FILE ] True if FILE exists.
+[ -d FILE ] True if FILE exists and is a directory.
+[ -e FILE ] True if FILE exists.
+[ -f FILE ] True if FILE exists and is a regular file.
+[ -r FILE ] True if FILE exists and is readable.
+[ -s FILE ] True if FILE exists and has a size greater than zero.
+[ -w FILE ] True if FILE exists and is writable.
+[ -x FILE ] True if FILE exists and is executable.
+[ -O FILE ] True if FILE exists and is owned by the effective user ID.
+[ -G FILE ] True if FILE exists and is owned by the effective group ID.
+[ -z STRING ]   True if the length of "STRING" is zero.
+[ -n STRING ] or [ STRING ] True if the length of "STRING" is non-zero.
+[ STRING1 == STRING2 ]  True if the strings are equal. "=" may be used instead of "==" for strict POSIX compliance.
+[ STRING1 != STRING2 ]  True if the strings are not equal.
+[ STRING1 < STRING2 ]   True if "STRING1" sorts before "STRING2" lexicographically in the current locale.
+[ STRING1 > STRING2 ]   True if "STRING1" sorts after "STRING2" lexicographically in the current locale.
+[ ARG1 OP ARG2 ]    "OP" is one of -eq, -ne, -lt, -le, -gt or -ge. These arithmetic binary operators return true if "ARG1" 
 is equal to, not equal to, less than, less than or equal to, greater than, or greater than or equal to "ARG2", respectively.
 "ARG1" and "ARG2" are integers.
 
 Combining expressions
-Operation	Effect
-[ ! EXPR ]	True if EXPR is false.
-[ ( EXPR ) ]	Returns the value of EXPR. This may be used to override the normal precedence of operators.
-[ EXPR1 -a EXPR2 ]	True if both EXPR1 and EXPR2 are true.
-[ EXPR1 -o EXPR2 ]	True if either EXPR1 or EXPR2 is true.
+Operation   Effect
+[ ! EXPR ]  True if EXPR is false.
+[ ( EXPR ) ]    Returns the value of EXPR. This may be used to override the normal precedence of operators.
+[ EXPR1 -a EXPR2 ]  True if both EXPR1 and EXPR2 are true.
+[ EXPR1 -o EXPR2 ]  True if either EXPR1 or EXPR2 is true.
 
 if [ -f /var/log/messages ]
   then
@@ -328,17 +328,17 @@ echo -e - interprets backslash-escaped characters
 echo -n - no new line at the end
 
 Other sequence used by echo command:
-Sequence	Meaning
-\a	Alert (bell).
-\b	Backspace.
-\c	Suppress trailing newline.
-\e	Escape.
-\f	Form feed.
-\n	Newline.
-\r	Carriage return.
-\t	Horizontal tab.
-\v	Vertical tab.
-\\	Backslash.
+Sequence    Meaning
+\a  Alert (bell).
+\b  Backspace.
+\c  Suppress trailing newline.
+\e  Escape.
+\f  Form feed.
+\n  Newline.
+\r  Carriage return.
+\t  Horizontal tab.
+\v  Vertical tab.
+\\  Backslash.
 
 read built-in is counterpart of echo. It reads a line from the standard input or from the file supplied.
 read [options] name1 name2 ... nameN
@@ -348,16 +348,16 @@ If fewer words than read names, the reamining names are empty.
 If no names supplied, line read is assigned to variable REPLY.
 
 
-Option	Meaning
--a ANAME	The words are assigned to sequential indexes of the array variable ANAME, starting at 0. All elements are removed from ANAME before the assignment. Other NAME arguments are ignored.
--d DELIM	The first character of DELIM is used to terminate the input line, rather than newline.
--e	readline is used to obtain the line.
--n NCHARS	read returns after reading NCHARS characters rather than waiting for a complete line of input.
--p PROMPT	Display PROMPT, without a trailing newline, before attempting to read any input. The prompt is displayed only if input is coming from a terminal.
--r	If this option is given, backslash does not act as an escape character. The backslash is considered to be part of the line. In particular, a backslash-newline pair may not be used as a line continuation.
--s	Silent mode. If input is coming from a terminal, characters are not echoed.
--t TIMEOUT	Cause read to time out and return failure if a complete line of input is not read within TIMEOUT seconds. This option has no effect if read is not reading input from the terminal or from a pipe.
--u FD	Read input from file descriptor FD.
+Option  Meaning
+-a ANAME    The words are assigned to sequential indexes of the array variable ANAME, starting at 0. All elements are removed from ANAME before the assignment. Other NAME arguments are ignored.
+-d DELIM    The first character of DELIM is used to terminate the input line, rather than newline.
+-e  readline is used to obtain the line.
+-n NCHARS   read returns after reading NCHARS characters rather than waiting for a complete line of input.
+-p PROMPT   Display PROMPT, without a trailing newline, before attempting to read any input. The prompt is displayed only if input is coming from a terminal.
+-r  If this option is given, backslash does not act as an escape character. The backslash is considered to be part of the line. In particular, a backslash-newline pair may not be used as a line continuation.
+-s  Silent mode. If input is coming from a terminal, characters are not echoed.
+-t TIMEOUT  Cause read to time out and return failure if a complete line of input is not read within TIMEOUT seconds. This option has no effect if read is not reading input from the terminal or from a pipe.
+-u FD   Read input from file descriptor FD.
 
 Input and output can be redirected before it is executed using redirection operators.
 Redirection also can be used to open/close files for current shell.
@@ -439,14 +439,14 @@ Then $4 becomes $1, $5 becomes $2 and so on. Original $1 $2 and $3 are thrown aw
 use declare statement when you want to limit value assignmnet to variables.
 declare OPTION(s) VARIABLE=value
 
-Option	Meaning
--a	Variable is an array.
--f	Use function names only.
--i	The variable is to be treated as an integer; arithmetic evaluation is performed when the variable is assigned a value (see Section 3.4.6).
--p	Display the attributes and values of each variable. When -p is used, additional options are ignored.
--r	Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset.
--t	Give each variable the trace attribute.
--x	Mark each variable for export to subsequent commands via the environment.
+Option  Meaning
+-a  Variable is an array.
+-f  Use function names only.
+-i  The variable is to be treated as an integer; arithmetic evaluation is performed when the variable is assigned a value (see Section 3.4.6).
+-p  Display the attributes and values of each variable. When -p is used, additional options are ignored.
+-r  Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset.
+-t  Give each variable the trace attribute.
+-x  Mark each variable for export to subsequent commands via the environment.
 
 declare -r dd=hello
 
@@ -510,3 +510,103 @@ echo "Pos parameter 1 is $1"
 
 test par1
 
+Signals are short, fast, one-way, real-time messages sent to processes such as scripts and programs.
+They let the process know about something that has happeneded ie. user hit ctrl+c
+or the application have tried to write to memory it doesnt have access to.
+
+trap -l to list all signals Linux uses
+
+One way to trap a signal is to use trap command with the number or name of the singal and the response
+that you want to happen if the signal is received.
+trap 'echo "Hello from CTRL+C detection"' SIGINT >> then press CTRL+C
+
+To see if trap is set on signal
+trap -p <signalname>
+
+trap - <signalname> - reset the trap
+
+SIGUSR1 and SIGUSR2 are custom user-defined signals
+
+Common shell features:
+
+Command Meaning
+>   Redirect output
+>>  Append to file
+<   Redirect input
+<<  "Here" document (redirect input)
+|   Pipe output
+&   Run process in background.
+;   Separate commands on same line
+*   Match any character(s) in filename
+?   Match single character in filename
+[ ] Match any characters enclosed
+( ) Execute in subshell
+` ` Substitute output of enclosed command
+" " Partial quote (allows variable and command expansion)
+' ' Full quote (no expansion)
+\   Quote following character
+$var    Use value for variable
+$$  Process id
+$0  Command name
+$n  nth argument (n from 0 to 9)
+#   Begin comment
+bg  Background execution
+break   Break from loop statements
+cd  Change directories
+continue    Resume a program loop
+echo    Display output
+eval    Evaluate arguments
+exec    Execute a new shell
+fg  Foreground execution
+jobs    Show active jobs
+kill    Terminate running jobs
+newgrp  Change to a new group
+shift   Shift positional parameters
+stop    Suspend a background job
+suspend Suspend a foreground job
+time    Time a command
+umask   Set or list file permissions
+unset   Erase variable or function definitions
+wait    Wait for a background job to finish
+
+bash | Meaning/Action
+$   -- Default user prompt
+>|  -- Force redirection
+&> file or > file 2>&1-- Redirect stdout and stderr to file
+{ } -- Expand elements in list
+`command` or $(command) -- Substitute output of enclosed command
+$HOME   -- Home directory
+~   -- Home directory symbol
+~+, ~-, dirs    -- Access directory stack
+VAR=value   -- Variable assignment
+export VAR=value    -- Set environment variable
+${nnnn} -- More than 9 arguments can be referenced
+"$@"    -- All arguments as separate words
+$#  -- Number of arguments
+$?  -- Exit status of the most recently executed command
+$!  -- PID of most recently backgrounded process
+$-  -- Current options
+source file or . file   -- Read commands in file
+alias x='y' -- Name x stands for command y
+case    -- Choose alternatives
+done    -- End a loop statement
+esac    -- End case or switch
+exit n  -- Exit with a status
+for/do  -- Loop through variables
+set -f, set -o nullglob|dotglob|nocaseglob|noglob   -- Ignore substitution characters for filename generation
+hash    -- Display hashed commands (tracked aliases)
+hash cmds   -- Remember command locations
+hash -r -- Forget command locations
+history -- List previous commands
+ArrowUp+Enter or !! -- Redo previous command
+!str    -- Redo last command that starts with "str"
+!cmd:s/x/y/ -- Replace "x" with "y" in most recent command starting with "cmd", then execute.
+if [ $i -eq 5 ] -- Sample condition test
+fi  -- End if statement
+ulimit  -- Set resource limits
+pwd -- Print working directory
+read    -- Read from terminal
+trap  -- Traps signals
+unalias -- Remove aliases
+until   -- Begin until loop
+while/do    -- Begin while loop
