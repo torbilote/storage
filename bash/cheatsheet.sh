@@ -60,7 +60,7 @@ You can enclose the line(s) like following. In this case, debug mode is activate
 ...
 set -x
 w
-set -x
+set +x
 ...
 
 Set debugging options:
@@ -339,6 +339,9 @@ Sequence    Meaning
 \t  Horizontal tab.
 \v  Vertical tab.
 \\  Backslash.
+
+-------------------
+
 
 read built-in is counterpart of echo. It reads a line from the standard input or from the file supplied.
 read [options] name1 name2 ... nameN
