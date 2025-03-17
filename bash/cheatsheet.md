@@ -114,6 +114,35 @@ Variables are case sensitive.
 Good habit to quote the content when assigning to variables.
 Subshell can change variables inherited from parent but changes made by child don't affect the parent.
 
+
+Declare statement limits value assignmnet to variables.
+
+```bash
+declare -r VARNAME="value"
+```
+|Option |  Meaning |
+|-a | Variable is an array.
+|-f | Use function names only. |
+|-i | The variable is to be treated as an integer; arithmetic evaluation is performed when the variable is assigned a value. |
+|-p | Display the attributes and values of each variable. When -p is used, additional options are ignored. |
+|-r | Make variables read-only. These variables cannot then be assigned values by subsequent assignment statements, nor can they be unset. |
+|-t | Give each variable the trace attribute. | 
+|-x | Mark each variable for export to subsequent commands via the environment. |
+
+
+readonly marks variable as unchangeable/read only.
+```bash
+readonly d="hello"
+```
+
+Array is a variable containing multiple values. No max size limit.
+
+```bash
+declare -a arrayname=(1 2 3)
+arrayname=(1 2 3)
+```
+
+---
 ### Display Variables
 ```bash
 printenv  # Show environment variables
@@ -124,6 +153,15 @@ set       # Show all variables
 ```bash
 echo $SHELL
 echo ${SHELL}
+echo ${arrayname[*]}
+echo ${arrayname[@]}
+echo ${arrayname[index]}
+
+echo ${varname:offset:length} # strip the variable
+echo ${varname/pattern/string} # replace first match
+echo ${varname//pattern/string} # replace all matches
+echo ${varname##word} # delete leading portion of word by pattern matching
+echo ${varname%%word} # delete trailing portion of word by pattern matching
 ```
 ### Special Variables
 The positional parameters are the words following the name of a shell script. They are put into the variables $1, $2, $3 and so on respectively. Also there are several special parameters that can only be referenced. 
@@ -156,6 +194,7 @@ echo "Hello from $SHELL. Wer are in $(pwd) or \$(pwd) or `pwd`. 2+2 equals $((2+
 ```
 
 In `zsh` use `echo` with -E flag to have the same effect as `echo` in `bash` (-E flag preserves backslashes when its followed by something other than dollar etc. )
+
 ---
 
 ### Brace expansion
@@ -330,7 +369,7 @@ Primaries are put between square brackets to indicate the conditional expresion
 | Operator | Description |
 |----------|-------------|
 | `&&` | AND (execute if previous is true) |
-| `||` | OR (execute if previous is false) |
+| `\|\|` | OR (execute if previous is false) |
 
 Example:
 ```bash
@@ -339,8 +378,20 @@ test $? -eq 0 && (echo 'That was a good job!') # Same effect using test built-in
 ```
 
 ---
-#TODO
-## 13. Loops 
+
+## 13. Case condition
+```bash
+d="hello"
+case $d in
+"hello") echo 1;;
+"hey") echo 2;;
+"hi") echo 3;;
+*) echo -1;;
+esac
+```
+
+---
+## 14. Loops 
 
 ### For Loop
 ```bash
@@ -370,20 +421,34 @@ done
 for i in {1..10}; do
     if [ $i -eq 5 ]; then
         break  # Exit loop
+    elif [ $i -eq 2]; then
+        continue
+    else 
+      echo "$i"
     fi
-    echo "$i"
 done
 ```
-
+## 15. Menu generation
+```bash
+select file in $(ls); do
+    echo $file;
+done
+```
 ---
 
-## 8. Functions
+## 16. Functions
+Function is executed within the shell in which it was declared. No new process created.
 
 ### Define a Function
 ```bash
 my_function() {
     echo "Hello from function!"
 }
+
+function my_function2 {
+  echo "Hello from function2!"
+} 
+
 my_function  # Call function
 ```
 
@@ -395,9 +460,81 @@ my_function() {
 my_function "Hello"
 ```
 
+Variable $FUNCNAME is set to the name of the function during its execution.
+When variable is set within the function, it remains after function execution.
+If numeric argument is given to return, that status is returned.
+
 ---
 
-## 9. File Redirection & Piping
+## 17. Reading user input
+read built-in is a counterpart of echo. It reads a line from the standard input or from the file supplied.
+
+```bash
+read [options] name1 name2 ... nameN
+```
+
+first word of line is assigned to first name, second to second name and so on..
+leftover words assigned to the last name.
+If fewer words than read names, the reamining names are empty.
+If no names supplied, line read is assigned to variable REPLY.
+
+|Option | Meaning |
+| ----- | ------- |
+|-a ANAME | The words are assigned to sequential indexes of the array variable ANAME, starting at 0. All elements are removed from ANAME before the assignment. Other NAME arguments are ignored. |
+|-d DELIM | The first character of DELIM is used to terminate the input line, rather than newline. |
+|-e | readline is used to obtain the line. |
+|-n NCHARS | Read returns after reading NCHARS characters rather than waiting for a complete line of input. |
+|-p PROMPT | Display PROMPT, without a trailing newline, before attempting to read any input. The prompt is displayed only if input is coming from a terminal. |
+|-r | If this option is given, backslash does not act as an escape character. The backslash is considered to be part of the line. In particular, a backslash-newline pair may not be used as a line continuation. |
+|-s | Silent mode. If input is coming from a terminal, characters are not echoed. |
+|-t TIMEOUT | Cause read to time out and return failure if a complete line of input is not read within TIMEOUT seconds. This option has no effect if read is not reading input from the terminal or from a pipe. |
+|-u FD | Read input from file descriptor FD. |
+
+---
+## 18. File Redirection & Piping
+Input and output can be redirected before it is executed using redirection operators.
+The file descriptors are numeric values that tracks all files for given process.
+The best known file descriptors are stdin, stdout and stderr with numbers 0, 1 and 2 respectively. These numbers are reserved.
+
+Order of redirections matters!
+
+```bash
+ls -ld /tmp /tnt >file 2>&1
+```
+
+First redirects stdout to file. then redirects stderr to the current stdout (which is file). Both streams points to file.
+
+```bash
+ls -ld /tmp /tnt 2>&1 >file
+```
+
+First redirects stderr to current stdout (terminal). then redirects stdout to file - it has no effect on previous stderr redirection as it was locked-in to whatever stdout was defined as. Effect: stderr points to terminal, stdout points to file.
+
+```bash
+&>file
+```
+This syntax is like "1>file 2>file" however file is opened only once (doesnt lead to mulfunction)
+
+Use redirection to /dev/null if you want to run command no matter what the output or errors it gives
+
+To redirect to your current terminal instance:
+```bash
+&>$(tty)
+```
+
+exec command can be used to: 1) replace the shell of the current process 2) alter the file descriptors of the current shell.
+```bash
+exec >file
+```
+you can define your own file descriptor for example to save the original value of stdin before stdin is changed
+```bash
+exec 7>&1
+ls >&7
+```
+close file descriptor if no longer needed (as child processes inherit open file descriptors)
+```bash
+exec fd<&-
+```
 
 ### Redirecting Output
 | Operator | Description |
@@ -416,25 +553,46 @@ ls nonexistent 2> errors.log  # Redirect errors
 
 ---
 
-## 10. Useful Commands
-
-### Grep
+## 19. Signals
+Signals are short, fast, one-way, real-time messages sent to processes such as scripts and programs.
+They let the process know about something that has happeneded ie. user hit ctrl+c
+or the application have tried to write to memory it doesnt have access to.
 ```bash
-grep "pattern" file.txt  # Find pattern
-grep -i "pattern" file.txt  # Case-insensitive search
+trap -l # to list all signals Linux uses
 ```
-
-### Sed
+One way to trap a signal is to use trap command with the number or name of the singal and the response
+that you want to happen if the signal is received.
+trap 'echo "Hello from CTRL+C detection"' SIGINT >> then press CTRL+C
 ```bash
-sed 's/old/new/g' file.txt  # Replace text
-```
 
-### Awk
-```bash
-awk '{print $1}' file.txt  # Print first column
+trap -p <signalname> # To see if trap is set on signal
+trap - <signalname> # Reset the trap
 ```
+SIGUSR1 and SIGUSR2 are custom user-defined signals
 
-### Sort
-```bash
-sort -n file.txt  # Numeric sort
-```
+---
+## 20. Useful Commands
+
+echo
+cat
+eval
+printenv
+set
+ls
+df
+sort
+tail
+head
+cut
+cd
+pwd
+chmod
+date
+cp
+mv
+dir
+which
+hostname
+mkdir
+touch
+rm
