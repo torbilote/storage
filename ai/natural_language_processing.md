@@ -89,6 +89,8 @@ Transformer models consist of **attention layers** that enable the model to focu
 ## Tokenization
 ### **What is a Tokenizer?**
 A **tokenizer** is responsible for preprocessing text by splitting the input into **tokens** (words, subwords, or symbols) and mapping them to integers.
+A token is the unit of information the model works with. For example word "interesting" can be built using 2 tokens "interest" and "ing".
+There are also special tokens like "End Of Sequence" (EOS). Model decodes text until it reaches EOS.
 
 - **Example**:
   - Input: "Natural Language Processing"
@@ -96,4 +98,15 @@ A **tokenizer** is responsible for preprocessing text by splitting the input int
 
 ---
 
-This structured NLP notes document is now ready for use! 🚀
+## Large Language Model (LLM)
+
+LLM is a type of AI model that focuses on understanding and generating human language. They are trained on vast amount of text data allowing them to learn patterns, structure and nuances in languages. Typically consist of milions of parameters. Most LLMs are built on the Transformer architecture - based on "attention" algorithm. LLM are typically decoder-based models with bilions of parameters. Its objective is to predict the next token given a sequence of previous tokens.
+
+# Decoding process
+Once the input text is tokenized, the model computes a representation of the sequence that captures information about the meaning and the position of each token in the input sequence. This representation goes into the model, which outputs scores that rank the likelihood of each token in its vocabulary as being the next one in the sequence.
+
+Based on these scored, there are multiple strategies to select the next token:
+The easiest decoding strategy is to take the token with maximum score.
+There are more advanced strategies like "beam search" which explores multiple candidate sequences to find the one with the maximum total score, even if some individual tokens have lower scores.
+
+
