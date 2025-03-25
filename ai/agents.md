@@ -81,8 +81,35 @@ Since it is encouraged to decompose the problem into sub-tasks it process toward
 
 # Types of Agent Action 
 
-JSON Agent - The action to take is specified in JSON format.
+Tool Calling Agent - The action to take is specified in JSON format.
 Code Agent - The Agent writes a code block that is interpreted externally.
 
-
 Inference is the process of using a trained model running on a dedicated or external service. 
+
+For example if agent wants to search internet for catering services and party ideas, a Code Agent would generate and run Python code like this:
+```python
+for query in [
+    "Best catering services in Gotham City", 
+    "Party theme ideas for superheroes"
+]:
+    print(web_search(f"Search for: {query}"))
+```
+A Tool Calling Agent would instead create JSON blob which is used to exectue the tool calls:
+```json
+[
+    {"name": "web_search", "arguments": "Best catering services in Gotham City"},
+    {"name": "web_search", "arguments": "Party theme ideas for superheroes"}
+]
+```
+While Code Agents perform better overall, Tool Calling Agents can be effective for simple systems that dont require variable handling or complex tool calls.
+
+# RAG
+Retrieval Augmented Generation (RAG) systems combine the capabilities of data retrieval and generation models to provide context-aware responses.
+For example, a user’s query is passed to a search engine, and the retrieved results are given to the model along with the query. The model then generates a response based on the query and retrieved information.
+
+Agentic RAG (Retrieval-Augmented Generation) extends traditional RAG systems by combining autonomous agents with dynamic knowledge retrieval.
+While traditional RAG systems use an LLM to answer queries based on retrieved data, agentic RAG enables intelligent control of both retrieval and generation processes, improving efficiency and accuracy.
+
+Traditional RAG systems face key limitations, such as relying on a single retrieval step and focusing on direct semantic similarity with the user’s query, which may overlook relevant information.
+
+Agentic RAG addresses these issues by allowing the agent to autonomously formulate search queries, critique retrieved results, and conduct multiple retrieval steps for a more tailored and comprehensive output.
