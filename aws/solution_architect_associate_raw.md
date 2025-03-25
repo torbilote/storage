@@ -74,3 +74,54 @@ S3 Versioning:
 When enabled, S3 stores all versions of an object including all writes and deletes.
 Once it is enabled, cannot be disabled, only suspended.
 MFA delete capability as additional layer of security.
+
+Lifecycle management:
+Automates the moving of objects between the different storage tiers.
+Rules can be applied to both current and previous versions of an object.
+
+Cross region replication:
+works if versioning is enabled
+when enabled only new and subsequent uploads are replicated.
+can change tier of replicated content.
+Deletes are not replicated.
+
+S3 transfer acceleration:
+make use of CloudFront network by sending or reciving data at CDN points instead of uploads/downloads at the origin.
+
+S3 Event Notifications:
+Enables to receive and send notifications when certain events happen in your bucket. Need to configure the events you want S3 to publish and where you want S3 to sent notifications.
+Supported destinations:
+- Simple Notification Service (SNS) 
+- Simple Queue Service (SQS)
+- Lambda
+
+S3 and ElasticSearch:
+If you store log files in S3, ElasticSearch provides full search capabilities for logs.
+
+S3 Read/Write performance:
+If request rate for reading/writing to S3 is extremaly high, you can use sequentia date-based naming for your prefixes to improve performance.
+Partitions used to store objects will be better distributed.
+
+If GET request rate is high, consider using CloudFront for performance optimization to distribute content via cache for lower latency and higher data transfer rate. 
+
+S3 Server Access Logging:
+provides detailed records for the requests that are made to a bucket. Logs saved in same region as bucket.
+It Periodically collects access logs records of the bucket, then consolidates them into log files and uploads to monitoring bucket
+
+S3 Multipart Upload:
+Allows to upload a single object as a set of parts. Each part is a contiguous portion. Can be uploaded independently and in any order.
+Recommended for files over 100MB and only way to upload files over 5 GB.
+If transmission of any part fails, you can retransmit only failed part.
+After all parts are uploaded, S3 assembles these parts and create the object.
+Improved throughput. can be paused and resumed. quick recovery from network issues.
+
+S3 pre-signed urls:
+All objects in S3 are private by default.
+Object owner can occasionally share private object without having to change the permissions of the bucket to be public.
+This is done by creating pre-signed URL.
+Using your own credentials, you can grant time-limited permission to download or view private objects.
+Anyone who receives the URL can access the object.
+
+S3 select:
+Enables to pull out only part of the data from an object which can dramatically improve the performance and reduce cost.
+
