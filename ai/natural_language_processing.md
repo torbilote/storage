@@ -102,7 +102,7 @@ There are also special tokens like "End Of Sequence" (EOS). Model decodes text u
 
 LLM is a type of AI model that focuses on understanding and generating human language. They are trained on vast amount of text data allowing them to learn patterns, structure and nuances in languages. Typically consist of milions of parameters. Most LLMs are built on the Transformer architecture - based on "attention" algorithm. LLM are typically decoder-based models with bilions of parameters. Its objective is to predict the next token given a sequence of previous tokens.
 
-# Decoding process
+## Decoding process
 Once the input text is tokenized, the model computes a representation of the sequence that captures information about the meaning and the position of each token in the input sequence. This representation goes into the model, which outputs scores that rank the likelihood of each token in its vocabulary as being the next one in the sequence.
 
 Based on these scored, there are multiple strategies to select the next token:

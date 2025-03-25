@@ -1,34 +1,42 @@
 # AI Agents Notes
 
-Introduction
-Simple definiton:
-AI Agent is an AI model capable of reasoning, planning, and interacting with its environment.
+## Introduction
 
-More technical definition:
-AI Agent is a system that leverages an AI model to interact with its environment in order to achieve
-a user-defined objective. It combines reasoning, planning, and the execution of actions (often via external tools) to fulfill tasks.
+### Simple Definition:
+An **AI Agent** is an AI model capable of **reasoning, planning, and interacting** with its environment.
 
-Think of agent as having two parts:
-a) brain (ai model) - this is where all the thinking happens. It handles reasoning and planning. It decides which actions to take based on the situation.
-b) body (tools and capabilities) - this represents everything the agent is equipped with.
+### Technical Definition:
+An **AI Agent** is a system that leverages an AI model to interact with its environment to achieve a **user-defined objective**. It combines **reasoning, planning, and execution of actions** (often via external tools) to fulfill tasks.
 
-Most common AI model found in AI Agents is Large Language Model (LLM).
+### Components of an AI Agent:
+1. **Brain (AI Model)** – Handles reasoning and planning, deciding which actions to take based on the situation.
+2. **Body (Tools and Capabilities)** – Represents everything the agent is equipped with to interact with the environment.
 
-System Messages (also called system prompts) define how the model should behave. They serve as persistent instructions guiding every subsequent interaction.
-For example
+Most AI agents utilize **Large Language Models (LLMs)** as their primary reasoning component.
+
+---
+
+## System Messages
+System Messages (also called **system prompts**) define how the model should behave. They serve as persistent instructions guiding every interaction.
+
+### Example:
 ```python
 system_message = {
   "role": "system",
   "content": "You are a professional customer service agent. Always be polite."
 }
 ```
+System messages provide:
+- Information about available tools.
+- Formatting instructions for actions.
+- Thought process segmentation guidelines.
 
-When using Agents, the System Message gives information about the available tools, provides instructions to the model on how to format the actions to take,
-and includes guidelines on how the thought process should be segmented.
+---
 
-Chat templates structure the communication between user and the agent, ensuring the model receives correctly formatted prompt. They also preserve conversation history.
+## Chat Templates
+Chat templates structure communication between the **user and the agent**, ensuring the model receives correctly formatted prompts while preserving conversation history.
 
-Conversation example:
+### Example Conversation:
 ```python
 conversation = [
     {"role": "user", "content": "I need help with my order"},
@@ -36,57 +44,76 @@ conversation = [
     {"role": "user", "content": "It's ORDER-123"},
 ]
 ```
-Chat template actually converts all the messages inside this Python list into a prompt, which is just a string input that contains all the messages.
+The chat template converts messages into a structured prompt for the model.
 
-We can name a model a basic model when is trained on raw text data to predict the next token.
-An instruct model on the other hand is fine-tuned specifically to follow instructions and engage in conversations. They have formatted chat templates in consistent way the model can understand.
+---
 
-# Tools
-A tool is a function given to LLM. This function should fulfill a clear objective.
-You can create a tool for any use case that can be achieved by writing a code.
-A good tool should be something that complements the power of LLM.
-For instance, if you need to perform arithmetic, giving a calculator tool to your LLM will provide better results than relying on the native capabilites of the model.
-Also, models predict the tokens based on their training data, which means their internal knowledge only includes events prior to their training. If your agent needs up-to-date data, you must provide it through some tool.
+## Basic vs. Instruct Models
+- **Basic Model**: Trained on raw text data to predict the next token.
+- **Instruct Model**: Fine-tuned to follow instructions and engage in structured conversations.
 
-A tool should contain:
-- a textual description of what the function does.
-- a callable (something to perform an action).
-- arguments with typings.
-- Optionally outputs with typings.
+---
 
-# How the tools work
-LLMs, as we saw, can only receive text inputs and generate text outputs. They have no way to call tools on their own. What we mean when we talk about providing tools to an Agent, is that we teach the LLM about the existence of tools, and ask the model to generate text that will invoke tools when it needs to. For example, if we provide a tool to check the weather at a location from the Internet, and then ask the LLM about the weather in Paris, the LLM will recognize that question as a relevant opportunity to use the “weather” tool we taught it about. The LLM will generate text, in the form of code, to invoke that tool. It is the responsibility of the Agent to parse the LLM’s output, recognize that a tool call is required, and invoke the tool on the LLM’s behalf. The output from the tool will then be sent back to the LLM, which will compose its final response for the user.
+## Tools
+A **tool** is a function given to an LLM to perform a specific action. Tools extend the model's capabilities beyond its training data.
 
-The output from a tool call is another type of message in the conversation. Tool calling steps are typically not shown to the user: the Agent retrieves the conversation, calls the tool(s), gets the outputs, adds them as a new conversation message, and sends the updated conversation to the LLM again. From the user’s point of view, it’s like the LLM had used the tool, but in fact it was our application code (the Agent) who did it.
+### A Good Tool Should:
+- Complement the **LLM's strengths** (e.g., use a calculator tool instead of relying on LLM’s native arithmetic abilities).
+- Provide **real-time data** (e.g., weather updates, stock prices).
 
-To grant the model an access to the tool we simply provide a textual description of it within the system prompt.
-Though it has to be very precise and accurate about what the tool does and what input it expects.
+### Tool Components:
+- A **textual description** of its purpose.
+- A **callable function** to execute actions.
+- Arguments with **type definitions**.
+- (Optional) Outputs with **type definitions**.
 
+---
+
+## How Tools Work
+LLMs can **only process text inputs and outputs**. They cannot execute tools directly but can **generate structured text (e.g., JSON, Python code) that invokes tools**.
+
+### Example: Weather Lookup Tool
+If we provide a **weather-checking tool**, and the user asks, *“What’s the weather in Paris?”*, the LLM will generate a tool invocation request instead of an answer:
+```json
+{"name": "check_weather", "arguments": "Paris"}
+```
+The **Agent** then:
+1. Recognizes the tool call request.
+2. Executes the tool.
+3. Returns the tool's output to the LLM.
+4. The LLM integrates the tool output into a response for the user.
+
+### Example of Providing Tool Access:
 ```python
 system_message = "[..] You have access to the following tools: <tools description>. "
 ```
+Tools help **overcome model limitations, provide real-time data, and perform specialized actions**.
 
-Tools enable agents to overcome limitations of statis model training, handle real-time tasks and perform specialized actions.
+---
 
 ## Thought-Action-Observation Cycle
-Agents work in a continuious cycle of the following loop until the objective is fulfilled:
-thinking (Thought) -> acting and observing (Act and Observe)
+Agents operate in a **continuous loop** until the task is completed:
+1. **Thought** – The LLM decides the next step.
+2. **Action** – The agent calls tools with relevant arguments.
+3. **Observation** – The model reflects on the tool's response and determines the next step.
 
-Thought - The LLM part of the agent decides what the next step should be.
-Action - The agent takes an action by calling the tools with the associated arguments.
-Observation - The model reflects on the response from the tool.
+### **ReAct (Reasoning + Acting) Approach**
+A prompting technique that **encourages step-by-step problem solving** before generating a final solution.
 
-A key method ReAct approach is a prompting technique that appends "Let's think step by step" before letting LLM decode the next tokens.
-Since it is encouraged to decompose the problem into sub-tasks it process towards token that generate the plan rather the final solution which gives better results.
+---
 
-# Types of Agent Action 
+## Types of Agent Actions
 
-Tool Calling Agent - The action to take is specified in JSON format.
-Code Agent - The Agent writes a code block that is interpreted externally.
+### 1. **Tool-Calling Agent**
+- Generates structured **JSON** to invoke tools.
+- Best for **simple tool execution** without variable handling.
 
-Inference is the process of using a trained model running on a dedicated or external service. 
+### 2. **Code Agent**
+- Generates **Python code** that is executed externally.
+- Best for **complex logic, iterative reasoning, and multi-step execution**.
 
-For example if agent wants to search internet for catering services and party ideas, a Code Agent would generate and run Python code like this:
+#### Example:
+If an agent needs to **search for catering services**, a **Code Agent** would generate and run Python code:
 ```python
 for query in [
     "Best catering services in Gotham City", 
@@ -94,22 +121,38 @@ for query in [
 ]:
     print(web_search(f"Search for: {query}"))
 ```
-A Tool Calling Agent would instead create JSON blob which is used to exectue the tool calls:
+A **Tool-Calling Agent** would instead generate JSON:
 ```json
 [
     {"name": "web_search", "arguments": "Best catering services in Gotham City"},
     {"name": "web_search", "arguments": "Party theme ideas for superheroes"}
 ]
 ```
-While Code Agents perform better overall, Tool Calling Agents can be effective for simple systems that dont require variable handling or complex tool calls.
+**Comparison:**
+- **Code Agents**: More flexible and powerful.
+- **Tool-Calling Agents**: Simpler, but limited.
 
-# RAG
-Retrieval Augmented Generation (RAG) systems combine the capabilities of data retrieval and generation models to provide context-aware responses.
-For example, a user’s query is passed to a search engine, and the retrieved results are given to the model along with the query. The model then generates a response based on the query and retrieved information.
+---
 
-Agentic RAG (Retrieval-Augmented Generation) extends traditional RAG systems by combining autonomous agents with dynamic knowledge retrieval.
-While traditional RAG systems use an LLM to answer queries based on retrieved data, agentic RAG enables intelligent control of both retrieval and generation processes, improving efficiency and accuracy.
+## Retrieval-Augmented Generation (RAG)
+### What is RAG?
+RAG systems **combine retrieval-based search with generative models** for more informed responses.
 
-Traditional RAG systems face key limitations, such as relying on a single retrieval step and focusing on direct semantic similarity with the user’s query, which may overlook relevant information.
+### How It Works:
+1. A **user query** is passed to a search engine.
+2. The retrieved results are **provided to the LLM** along with the query.
+3. The LLM **generates a response** based on the retrieved data.
 
-Agentic RAG addresses these issues by allowing the agent to autonomously formulate search queries, critique retrieved results, and conduct multiple retrieval steps for a more tailored and comprehensive output.
+### **Agentic RAG vs. Traditional RAG**
+| Feature | Traditional RAG | Agentic RAG |
+|---------|---------------|-------------|
+| Query Process | Uses a **single** retrieval step | Uses **multiple** retrieval steps |
+| Context Handling | Focuses on **direct similarity** | **Critiques & refines** search results |
+| Decision Making | LLM **answers based on retrieval** | Agent **controls retrieval & generation** |
+
+**Agentic RAG** enhances traditional RAG by allowing the agent to:
+- Autonomously **formulate search queries**.
+- **Critique retrieved results** for relevance.
+- Perform **multi-step retrieval** to refine information.
+
+---
