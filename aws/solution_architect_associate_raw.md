@@ -125,3 +125,99 @@ Anyone who receives the URL can access the object.
 S3 select:
 Enables to pull out only part of the data from an object which can dramatically improve the performance and reduce cost.
 
+# CloudFront
+
+Content Delivery Network (CDN) - group of geographically distributed servers that speed up the delivery of web content by bringing it closer to where users are.
+CloudFront is AWS CDDN service.
+It caches content and assets to increase global performance.
+Main component are edge locations (cache endpoints), the origin (original source of truth) and the distribution (the network).
+
+When content is cached - it is done for certain time limit called Time To Live (TTL) - always in seconds.
+Can serve up entire websites.
+Requests always cached in the nearest edge location for the user.
+Two types of distributions:
+Web Distribution : web sites, normal cached items,
+RTMP: streaming content
+
+Edge locations are read and write.
+Can invalidate the distribution of certain objects so the content is loaded directly from the origin.
+Origin Access Identity (OAI) is used for sharing private content via CloudFront.
+
+Signed URLs and Signed Cookies - allow you to control who can access your content.
+Use signed URLs when:
+- you want to use RTMP disribution.
+- you want to restrict access to individual files,
+- your users are using a client that doesnt support cookies.
+
+Use signed cookies when:
+- You want to provide access to multiple restricted files.
+- You dont want to change your current URLs.
+
+# Snowball
+
+Giant physical disk used to migrating high quantities of data into AWS. It is petabyte scale data transport solution.
+Secure and quick data transfer.
+
+Snowball Edge - type of Snowball that comes with both compute and storage capabilites via Lambda and EC2 instance types.
+Allows to run code within your snowball while your data is routed to Amazon data center.
+
+Snowmobile - exabyte scale data transfer solution. Is contained within shipping container. Makes sense when you want to move your entire data center with years of data into the cloud.
+
+# Storage Gateway
+Service that connects on-premise environments with cloud-based stroage in order to seamlessly and securely integrate on-prem application with cloud storage backend.
+Storage gateway can be either a physical device or a VM image downloaded onto on-prem data center. Acts like a bridge to send/receive data from AWS.
+Three types of storage gateways:
+- file gateway - used to store files in s3 over a network filesystem mount.
+- volume gateway - used to store copies of hard disk drives in s3. 
+- tape gateway - virtual tape library.
+
+Relevant file information passing through gateway are stored as objects metadata. Once files are stored in S3, all S3 features can be applied.
+
+Applications interfacing with AWS over Volume Gateway - data written to volumes can be asyncchronuosly backed up into AS Elastic Block Store (EBS) as point-in-time snapshots. Snapshots act likea backup that capture only changed state, lateron all snapshots are compressed to reduce storage costs.
+Volume Gateway's Stored Volumes:
+let you store data locally on-prem and back up the data to AWS as a secondary data source.
+Volume Gateway's Cached Volumes:
+AWS is used as primary data source and local hardware is used as a caching layer.
+
+Tape Gateway - cost-effective way of archiving and replicating data into S3 while getting rid of old school data storage.
+
+# EC2
+Elastic Compute Cloud (EC2)
+
+Spins up resizable server instances that can scale up and down quickly. AN instance is a virtual server in the cloud.
+You can set up and configure the operating system and applications that run on the instance.
+Extremaly quick provisioning and booting new instances.
+Its configuration at launch is live copy of Amazon Machine Image (AMI)
+
+Charging for:
+CPU, memory, storage, networking. when stopped, charged for storage only.
+
+You can launch different type of instances from single AMI. Type determines the hardware of your instance meaning different compute and memory capabilites.
+You can import existing VMs into AWS as long as compatible.
+When you launch an EC2 instance, you can pass user data when it starts to run common automated configuration tasks or scripts.
+By default the public IP address of EC2 instance is released when the instance is stopped.
+Best practise is to refer to instance by its external DNS hostname.
+If you require persistent public IP for same instance - use Elastic IP address.
+Instance status checks check the health of the running EC2 server
+System status checks monitor the health of the underlying hypervisor.
+
+Pricing:
+On-Demand instances - pricing based on fixed rate by hour or second. You can start it and stop whenever you need. No long term commitment.
+Reserved instances - 1 - 3 year contract term. Provides significant discounts at hourly rate.
+Spot instances - Only available when Amazon has excess capacity. You must financially bid for access. Instance can be stopped due to a price change. Usually used in batch processing jobs when your app has flexible start and end times.
+
+Standard Reserved - Inflexible reservations. Discounted significantly. Cannot be moved between regions.
+Convertible Reserved - Less discounted. You can modify the instance type at any point. 
+Scheduled Reserved - Reserved according to specified timeline.
+
+Security:
+You are responsible for instance management including updates, security patches and the configuraion of the AWS-provided firewall (security group).
+EC2 uses public-private keys to encrypt/decrypt login information.
+
+Placement Groups:
+balance the tradeoff between risk tolerance and network performance in your fleet of EC2 instances.
+
+Clustered placement groups: when you put all of your EC2 insstances in a single availability zone. Recommended for apps that need the lowest latency possible and the highest network thoroughput.
+Spread placement groups: when you put each individual EC2 instance on its own distinct hardward so that the failure is isolated. Recommended for apps that have a small number of critical instances.
+Partitioned Placement groups; similar to former, but multiple instances can be within a single partition and partitions are isolated. Balanced solution.
+ 
