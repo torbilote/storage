@@ -1,4 +1,4 @@
-# S3
+# Simple Storage Service (S3)
 
 data storage. data storage architecture - data as an objects.
 objects contain your data. they are like files.
@@ -181,7 +181,7 @@ AWS is used as primary data source and local hardware is used as a caching layer
 
 Tape Gateway - cost-effective way of archiving and replicating data into S3 while getting rid of old school data storage.
 
-# EC2
+# Elastic Compute Cloud (EC2)
 Elastic Compute Cloud (EC2)
 
 Spins up resizable server instances that can scale up and down quickly. AN instance is a virtual server in the cloud.
@@ -220,4 +220,88 @@ balance the tradeoff between risk tolerance and network performance in your flee
 Clustered placement groups: when you put all of your EC2 insstances in a single availability zone. Recommended for apps that need the lowest latency possible and the highest network thoroughput.
 Spread placement groups: when you put each individual EC2 instance on its own distinct hardward so that the failure is isolated. Recommended for apps that have a small number of critical instances.
 Partitioned Placement groups; similar to former, but multiple instances can be within a single partition and partitions are isolated. Balanced solution.
- 
+
+# Elastic Block Store (EBS)
+Elastic Block Store (EBS) volume is durable block-level storage device. Think of it as cloud-based virtual hard disk.
+Can be attached to EC2 instance. Can be used as primary storage such as the system drive or storage for database application.
+
+Volumes perist independently from running life of EC2 instance
+EBS volume is automatically replicated within its availability zone.
+
+5 types of EBS:
+- general purpose (SSD)
+- provisioned IOPS (SSD built for speed)
+- Throughput Optimized Hard Disk Drive (magnetic, built for larger data loads)
+- Cold Hard Disk Drive (magnetic, built for less frequently accessed workloads)
+- Magnetic
+
+Same availability zone as your EC2 instance
+Volume can be attached to one EC2 instance at a time.
+Ability to create snapshots/backups of the volume and write copy to S3.
+You can moidfy volumes on the fly (size, storage type)
+
+SSD-backed volumes recommended for IOPS heavy workloads whereas HDD-backed for throughput heavy workload.
+## sidenote
+
+IOPS - Input/Output Per Second - measures the number of read and write operations a device can perform
+Throughput - meassures the amount of data that can be transferred
+
+EBS Snapshots:
+Point in time copies of volumes. Capture the state of change from when last snapshot was taken.
+First one can take a while.
+
+Root Device Storage:
+All AMI root volumes are of two types: EBS-backed or Instance Store-backed.
+When delete EC2 instance that was instance store-backed - your root volume will be also deleted.
+When its ebs-backed - root volume will not be terminated.
+Instance Store cant provide data persistane but has very high IOPS rate.
+
+EBS for data, critical logs, application configs.
+Instance for in-process data, noncritical logs,
+Use S3 for data shared between systems.
+
+Encryption:
+uses AS KMS Customer master keys (CMK) when creating encrypted volumes and snapshots.
+What is encrrypted:
+- data at rest inside volume
+- all data moving between volume and the instance
+- all snapshots created from the volume
+- all volumes created from those snapshots
+
+# Elastic Network Interfaces (ENI)
+Elastic Network Interfaces (ENI) is networking component that represents a virtual network card.
+Mainly used for low-budget, high-availability network solutions
+If you need high throughput you cna use Enhanced Networking ENI but the downside is that is not available on all EC2 instance types.
+
+# Security Groups (SG)
+Security Groups are used to control access to EC2 (SSH, HTTP, etc.).
+Act as a virtual firewall for your instances to control inbound and outbound traffic.
+Can assign up to 5 security groups to the instance.
+Act on the instance level, not the subnet level (NACLs control the same but on the subnet level).
+SG control the list of ports that are allowed to be used by EC2 instance and NACLs control which network or list of IP addresses can connect to your whole VPC.
+Changes to SG occur immediately.
+When you create an inbound rule, an outbound one is created immediately (in contrast to NACLs).
+SG rules are based on ALLOWs (no concept of DENY). Everything is blocked by default.
+Security Group are specific to single VPC, cant share between multiple VPCs, however you can copy and create new one with the same rules for another VPC.
+SG are regional. Cant be cross regional.
+Multiple SG to one EC2 and multiple EC2 under one SG.
+You can specify SG to be single IP address, IP range or separate security group.
+
+# Web Application Firewall (WAF)
+Web application firewall is a web app that lets you allow or block HTTP(S) requests that are bound for CloudFront, API Gateway, App Load Balancers, EC2 (operates on Layer 7).
+Gives control over how traffic reaches your application by enabling you to create security rules that block common attack pattern (SQL injection, cross-site scripting etc.)
+You can set which IP addresses are allowed to make what kind of requests or access what kind of content.
+Outermost border of protecting your AWS ecosystem.
+Simply it lets you choose one of the following scenarios:
+- Allow all requests except the ones specified - useful for public websites
+- Block all requests except the ones specified - usefull for restricted website
+- Count the requests that match the properties that you specify - allow/block requests based on new properties.
+
+Protection capabilites by limit access based on:
+  - IP address a request came from
+  - country request came from
+  - values found in request headers
+  - any string within the request
+  - length of the request
+  - presence of sql code or a script
+  
