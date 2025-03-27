@@ -246,6 +246,8 @@ SSD-backed volumes recommended for IOPS heavy workloads whereas HDD-backed for t
 IOPS - Input/Output Per Second - measures the number of read and write operations a device can perform
 Throughput - meassures the amount of data that can be transferred
 
+---
+
 EBS Snapshots:
 Point in time copies of volumes. Capture the state of change from when last snapshot was taken.
 First one can take a while.
@@ -305,3 +307,203 @@ Protection capabilites by limit access based on:
   - length of the request
   - presence of sql code or a script
   
+# CloudWatch
+CloudWatch is a monitoring and observability service. Provides data and actionable insights to monitor your applications.
+It collects monitoring and operational data in the form of logs, metrics and events.
+Can detect anomalous behaviour in your environment, set alarms, take automated actions and troubleshoot issues.
+Its all about infrastructure performance (in contrast to CloudTrail which monitor AWS access for security and auditing reasons)
+In terms of EC2, CloudWatch can only monitor host level metrics such as CPU, network, disk, status checks. Cannot provide information about memory utilization, disk space utilization or log collection.
+
+CloudWatch Logs:
+Helps centralize the logs from all of your systems, applications and AWS services.
+Can create log groups.
+
+CloudWatch Events:
+Delivers near real-time stream of system events. Events can be used to trigger lambdas.
+
+CloudWatch Alarms:
+Sends norifications or automatically make changes to resources you are monitoring based on rules you define.
+
+CloudWatch Metrics:
+Represents a time-ordered set of data points.
+Various variables you can monitor over time eg hourly CPU utilization.
+
+CloudWatch Dashboards:
+Customizable home page in CloudWatch console.
+
+# CloudTrail
+Enables governance, compliance, operational auditing and risk auditing of your AWS account.
+You can log and monitor account activity related to actions across AWS infrastructure.
+Provides event history of AWS account activity including actions taken through AWS Console, AWS SDKs, CLI and API calls.
+Regional service.
+By default stores last 90 days of events.
+Two types of events:
+management events - provide information about things normally done by people like user sign in, policy changed, newly created security configuration
+data events - provide informatino about resource operations normally done by software like s3 object-level api activity or lambda execution activity
+By default only management events are logged.
+Logs are stored in S3 and encrypted using Server-Side Encryption by default.
+
+# Elastic File System (EFS)
+## sidenote
+NFS - Network File System - protocol that allows users to access files on remote computers as if they were local. Used to share files across networks.
+
+---
+
+Elastic File System is a simple and fully managed elastic NFS file system for use within AWS.
+Automatically scales your file system storage capacity up or down as you add or remove files without disrupting your application.
+While Elastic Block Store (EBS) mounts one volume to one EC2 instance, Elastic File System (EFS) volume can be attached to multiple EC2 instances.
+You pay only for the strage that you use so pay as you go.
+Can scale up to petabytes and support thousands of concurrent NFS connections.
+Data stored in one region.
+It is best for storage that is accessed by a fleet of servers rather than just one server.
+
+# Amazon FSx for Windows
+Provids fully managed native Microsoft File System.
+Place for windows based applications that require file storage in AWS.
+Can use Microsoft Active Directory to authenticate int ofile system.
+Provides multiple levels of security and compliance.
+Can access from variety of compute resources.
+All data is encrypted at rest and in transit.
+
+# Amazon FSx for Lustre
+Provides easy and cost effective environment to launch and run the open source Lustre file system for high performance computing applications.
+Can process massive data sets up to hundreds of gigabytes per second of throughput, milions of IOPS and sub-milisecond latencies.
+Compatible with most popular Linux-based AMIs.
+
+# Relational Database Service (RDS)
+Managed service to set up and scale relational database in AWS. Provides cost-efficient and resizable capacity while automating/outsourcing time-consuming admisitration tasks such as hardware provisioning, database setup, backups etc.
+
+Six database types:
+- sql server
+- oracle
+- mysql
+- postgresql
+- mariadb
+- aurora
+
+Key features:
+- read replication for improved performance
+- high availability
+
+# sidenote
+OLTP - Online Transaction Processing - serves up data for business logic that ultimately composes the core functioning of your platform or application.
+OLAP - Online Analytical Processing - serves to gain insights into the data that you have stored in order to make better strategic decisions as a company.
+
+---
+
+RDS runs on virtual machines, but you dont have access to those machines. AWS is responsible for security and maintanance.
+RDS is not serverless though.
+
+RDS Multi Availability Zone:
+Disaster recovery - standby copies of resources are maintained in separate geographical area.
+Supported for all engines except aurora.
+During a failover, the recovered former primary becomes new secondary, and the promoted secondary becomes primary. Once original DB is recovered, there will be a sync process kicked off.
+
+RDS Read Replicas:
+Read Replication is exclusively used for performance enhancement.
+Every write to master database is also passed to secondary (replica) so it becomes a perfect copy of master.
+There is no automatic failover when master fails. Need manual intervantion to make read replica a master on its own.
+All 6 engines supported.
+Each replica has its own DNS endpoint.
+The caveat is taht they are subject to small amounts of replication lag. Might be missing some of the latest transactions.
+
+RDS Backups:
+two kinds:
+- automated backups: allow to recover database at any point in time within a retention period (up to 35 days). The backup data is stored in S3.
+- database snapshots: done manually by admin. They are retained even after original RDS instance is terminated.
+When you restore DB via automated backups or database snapshots it will provision an entirely new RDS instance with its own DB endpoint.
+
+RDS Security:
+You can authenticate to your DB instance using IAM database authentication. Works with mysql and psotgresql. No need to use password, only authentication token. RDS generate a unique string (token) on request. Its valid for 15 minutes. Network traffic SSL encrypted, access centrally managed by IAM instead of individually per DB instance.
+Encryption at rest supported for all 6 engines. Done by AWS KMS service. Once enabled, the data, backups and read replicas are encrypted. AWS handles decryption transparently with a minimal impact on performance. Can be enabled only on DB creation, no afterwards. Cannot disable encryption.
+
+RDS Enhanced Monitoring:
+Feature that provides metrics in real time. By default stored in CloudWatch Logs for 30 days.
+
+# Aurora
+Aurora is AWS flagship database known to combine performance and availability of traditional enterpise databases with the simplicity and cost-effectiveness of open source databases. 10 times cheaper than the commerial database competitors, 5x better performance than mysql and 3x better than postgresql.
+
+Automatic failover to replica.
+Involves cluster of DB instances rhather than signle instance.
+Cluster Endpoint takes care of load balancing/routing to instances.
+Aurora storage is self-healing. Data is being scanned for errors.
+Aurora replicas can be both a standby as part of multi availability zone configuration as well as a target for read traffic (as opposed to RDS when multi AZ standby canno be read endpoint - only read replicas can serve that function).
+Automated backups enabled. Dont impact performance. Can also take snapshots.
+Aurora scales up to 128TB storage, 32 vCPUs and 244GB memory.
+Serverless. AUtomatic scaling.
+Recommended with infrequent workloads.
+
+# DynamoDB
+
+key-value and document database that delivers milisecond performance at any scale. Fully managed, multiregion, durable, non-SQL database.
+Built-in security, backup, restore, in-memory cache.
+
+Main components:
+- a collection - serves as the foundational table
+- a document - equivalent to a row in SQL table
+- key-value pairs - fields within the document or row
+
+Supports both document and key-value based models.
+Data stored in SSD.
+
+Two models:
+- Eventually Consistent Reads (default) - all copies of data are usually identical within one second after a write operation.
+- Strongly Consistent Reads - identical in less than a second.
+
+A relational database does not scale well for the following reasons:
+- it normalizes and stores data in multiple tables that require multiple queries to write to disk
+- Worse performance as a trade-off of ACID-compliant transaction system.
+- uses expensive joins to reassemble required views of query results.
+ 
+High cardinality is good for IO performance. The more distint your partition key values are, the better.
+
+DynamoDB Accelerator (DAX):
+Fully managed in-memory cached that can reduce response times from miliseconds to microseconds even at milions of requests per second.
+Scale on demand.
+Write performance improved as well (write through cache)
+One DAX cluster for multiple DynamoDB tables, multiple DAX clusters for a single table.
+
+DynamoDB Streams:
+Ordered flow of information about changes to items in DynamoDB table.
+When enabled, it captures information about every modification to data items.
+You can integrate Lambda to be triggered as response to events in streams.
+Stream Information is stored in separate table. 
+
+DynamoDB Global Tables:
+multi-region, multi-master replication solution for fast local performance of globally distributed apps.
+It replicates your tables across chosen regions.
+
+# Redshift
+Fully managed, petabyte scale data warehouse.
+Set of nodes which consists of a leader node and one or more compute nodes.
+USed for business intelligence. Pulls in very large datasets to perform complex queries for insights.
+Fits the use case of OLAP.
+You can start with small single-node cluster and scale up to multi-node large cluster with no interruption to the service.
+You can save money by reserve nodes for 1 or 3 year period.
+Snapshots are point in time. Enabled by default with 1 day of retention. Maximum retention is 35 days.
+Can replicate snapshots to different regions.
+Can have up to 128 compute nodes.
+Efficiency through columnar compression of similar data and Massive Pararell Processing.
+Does not require indexes.  
+Encrypted in transit using SSL and at rest using AES-256.
+
+Billed for:
+- Compute Node Hours (total hours your compute nodes spent querying data)
+- Backups
+- Data transfer within VPC
+  
+Need to associate cluster with a security group.
+Free storage for snapshots that is equal the storage capacity of your cluster. You are charged for any additional storage at normal rate. Recommended to configure retention period of snapshots. manual snapshots have to be deleted manually.
+
+Redshift Spectrum:
+Used to run queries against exabytes of unstructered data in S3.
+use massive parallelism.
+S3 and cluster must be in same region.
+
+Redshift Enhanced VPC Routing:
+When enabled, redshift forces traffic between your cluster and your data repositories through your Amazon VPC.
+If disabled - trafiic goes through internet.
+By enabling it you can use VPC features sch VPC security groups, network access control lsits (ACLs), VPC endpoint policies and DNS servers.
+
+# ElastiCache
+
