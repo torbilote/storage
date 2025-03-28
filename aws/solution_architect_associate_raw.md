@@ -506,4 +506,51 @@ If disabled - trafiic goes through internet.
 By enabling it you can use VPC features sch VPC security groups, network access control lsits (ACLs), VPC endpoint policies and DNS servers.
 
 # ElastiCache
+In-memory cache service in cloud. Boost performance of your existing databases. High throughput and low latency.
+Great for web applications. 
+Offers fully managed Redis and Memcached.
+For data that doesnt change frequently and is often asked for.
+Memcached - simple caching.
+Redis - more complexed caching.
+By caching query results, you pay the price of the DB query only once (unless data changes).
+Easy scalable.
 
+# Route53
+Highly available and scalable Domain Name System (DNS) service.
+Can be used to perform three main functions: domain registration, DNS routing, health checking.
+DNS is used to map human-readable domain names into an internet protocol (IP) address.
+AWS has its own domain registrar.
+
+When you buy a domain name, every DNS addresss starts with an SOA(Start of Authority) record.
+It stores information about the name of the server that kicked off the transfer of ownership, the admin who will use the domain, the metadata.
+Name Server (NS) records are used by the Top Level Domain hosts (.org, .com, etc.) to direct traffic to the Content Servers.
+The Content DNS servers contain the authoritative DNS records.
+Browsers talk to the Top Level Domains whenever they are queried and encounter domain name that they do not recognize.
+- Browers will ask for the authoritative DNS records assocsiated with the domain.
+- Because Top Level Domain contains NS reords, TLD can query Name Servers for their own SOA. Within SOA, there will be requested information.
+- Once this information is collected, it will then be returned all the way back to the original browser asking for it.
+- Browser -> TLD -> NS -> SOA -> DNS record. 
+- Authoritative name servers sstore DNS record information, usually a DNS hosting provider or domain registrar.
+
+Types of DNS records for Router54:
+- A records: Fundamental type of DNS record. The 'A' stands for 'address'. These records are used by computer to directly pair a domain name to IP address. A: URL -> IPv4 and AAAA: URL -> IPv6
+- CName records: Canonical name. These records are use dto resolve one domain name to another domain name. Ie. the domain of the mobile version of a website may be a CName from the domain of the browser version of that same webstire rather than a seperate IP address. Cannot be used for primary record. CNAME: URL -> URL
+- Alias records: These reocrds are used to map your domains to AWS resources such as load balancers, CDN endpoints and s3 buckets. It points domain name to service. Gives dynamic functionality. Alias: URL -> AWS Resource.
+- PTR records: Opposite to A record. Maps IP to domain (used in reverse DNS lookups). PTR: IPv4 -> URL.
+
+Alias records recommended for most use cases.
+
+Time To Live (TTL) is the length that a DNS record is cached on resolving servers. Most providers have TTL that lasts 48 hours. The lower TTL the faster DNS changes propagate acorss the internet.
+
+Routing Policies:
+When you create a record you choose a routing policy, which determines how Router 53 responds to DNS queries.
+Availble policies are:
+- Simple Rounting - when you need single DNS record and either one or more Ip addresses behind this record. Route53 returns a random IP from availble options.
+- Weighted Routing - You assign weights to records ie. 80% of traffic should go to one and the rest to another. Useful for testing. Each IP address needs separate record.
+- Latency-based - Route53 selects the record from available ones that gives the user the quickest speed. New record for every IP.
+- failover - monitor health of primary record and failover to other when needed.
+- Geolocation - let you choose where traffic will be send based on geographic location of users.
+- Geo-proximity - more complex geolocation routing. 
+- Multivalue Answer - same as simple routing but allows you to run health checks and the random IP is taken from only healthy IPs.
+
+# Elastic Load Balancers (ELB)
