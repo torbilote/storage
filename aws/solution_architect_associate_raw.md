@@ -554,3 +554,35 @@ Availble policies are:
 - Multivalue Answer - same as simple routing but allows you to run health checks and the random IP is taken from only healthy IPs.
 
 # Elastic Load Balancers (ELB)
+Elastic Load Balancers automatically distributes incoming application traffic across multiple targets such as EC2 instances, Docker containers,
+IP addresses and Lambda Functions.
+High availability, automatic scaling, robust security.
+Can be internet facing or application internal.
+To route domain traffic to ELB use Route 53 and create Alias record.
+ELB never have its own IPv4 (in opposite for network load balancers).
+
+In AWS there are three types of Load Balancers:
+- Application LB - best suited for HTTP(S) traffic. Balance load on 7th layer. Support path-based routing, host-based routing. Support containerized apps. 
+- Network LB - best suited for TCP traffic when performance is required. Balance load on 4th layer. Capable of managing milions of requests per second with low latency.
+- Classic LBs - legacy ELB, balance either HTTP(S) or TCP, but not both.
+
+The lifecycle of a request to view a website behind an ELB:
+1. the browser requests the IP address for the load balancer from DNS.
+2. DNS provides the IP.
+3. With the IP at hand, your browser makes an HTTP request for an HTML page.
+4. AWS perimeter devices checks and verifies your request before passing it onto the LB.
+5. The LB finds an active webserver to pass on the HTTP request.
+6. The webserver returns the requested HTML file.
+7. The browser receives  the HTML file it requested and renders the graphical representation of it on the screen.
+
+Load balancers are regional. They do not balance load across different regions.
+
+ELB Advanced Features:
+X-Forwarded-For header - forwards requester's IP address along with the actual request to backend servers.
+Sticky Sessions - bind given user to the specific instance. All the interaction with the application will be directed to the same host.
+Path Patterns - directs requests based on URL path.
+
+Cross Zone Load balancing - feature that guarantees even distribution across Availability Zones
+SSL/TLS & HTTPS decryption burden on the load balancer.
+Perfect Forward Secrecy - additional safeguards. Frequent and automatic key changes.
+
