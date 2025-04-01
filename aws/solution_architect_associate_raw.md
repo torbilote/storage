@@ -586,3 +586,119 @@ Cross Zone Load balancing - feature that guarantees even distribution across Ava
 SSL/TLS & HTTPS decryption burden on the load balancer.
 Perfect Forward Secrecy - additional safeguards. Frequent and automatic key changes.
 
+# Auto Scaling
+Auto scaling lets you build scaling plans that automate how groups of different resources respond to changes in demand.
+Optimize availability, costs or a balance of both.
+Major benefit from the cloud.
+
+Has three components:
+- groups : these are logical components ie. webserver group of EC2 instances, database group of RDS instances etc.
+- configuration templates: groups use a template to configure and launch new instances to better match the scaling needs. You can specify information like what AMI to use, the instance type, security groups etc.
+- scaling options: provides several ways for you to scale the groups. You can base the scaling trigger on the occurence of specified condition or on a schedule.
+
+Auto Scaling generally gain the benefits like:
+better fault tolerance, better availability.
+
+Scaling is flexible and can be set up in various ways:
+- based on demand,
+- ensure the current number of instances at all times,
+- scale only with manual intervention,
+- scale on a schedule,
+- predictive scaling using AI/ML
+
+Termination policy:
+automatically terminate a stopped instance (unless configured to do otherwise)
+spare instances you tell are running critical systems or apps
+ensure that network architecture spans evenly
+
+Cooldown Period:
+configurable setting that helps to ensure it doesnt launch or terminate additional instances before the previous scaling acitivty takes effect.
+
+# Virtual Private Cloud (VPC)
+Virtual Private Cloud lets you provision a logically isolated section of AWS cloud where you can launch services and systems within a virtual network that you define.
+It gives the option to select which resources are public facing and which are not.
+Generally VPC provides much more granular control over security.
+
+You can think of VPC as your own virtual data center. You have complete control over your own network including the IP range, the creation of sub-networks (subnets),
+the configuration of route tables and the network gateways used.
+
+You can then launch EC2 instances into a subnet of your choosing, assign security groups to them, and create Network Access Control Lists (NACLs) for the subnets as additional protection.
+
+This customization gives you much more control to specify and personalize your infrastructure setup. Ie. you can have one public-facing subnet for your webserver to receive HTTP traffic and then a different private-facing subnet for your database servre where intenre access is forbidden.
+
+VPCs come with defense in depth by design. From the subnetwork (NACLs) down to individual server (security group) and further down to the application itelf (secure coding practises) you can set up multiple levels of protection.
+
+By default all subnets are internet accessible. VPC permits subnets to have a route out to the internet.
+You can have as many custom VPCs as you want and all are private by default. When creating new VPC, subnets and gateways are not created by default so you must create them separately. However the following are created by default: a route table, a NACL, a security group.
+
+Whether the traffic originates from outside of the VPC or from within it, it must first go through the route table by way of the router in order to know where the desired destination is. Once that is known, the traffic then passes through subnet level security as described by the NACL. If the NACL evaluates the traffic as valid, the traffic then passes through the instance level security as described by the security group. If the traffic hasnt been stopped at this point, only then it will reach its intended instance.
+
+When you create a VPC you must assign it an IPv4 CIDR block. It is a range of private IPv4 addresses that will be inherited by your instances when you create them. The IP range of VPC by default is always /16 (65k of individual IP addresses).
+
+When creating IP ranges for your subnets, the ranges must be within the VPC IP range.
+/32 denotes a single IP address and /0 refers to the entire network.
+The higher you go in CIDR the more narrow the IP range will be.
+It  regards to both public and private addresses.
+
+Private IP addresses are not reachable over the Internet and instead are used for communication between the instances in your VPC.
+When you launch an instance into a VPC, a private IP address from IPv4 address range of the subnet is assigned to the default network interface of the instance. This means that all instances within a VPC have a private IP but only those selected to communicate with the external world have a public IP.
+
+You can optionally associate an IPv6 CIDR block to VPC and subnets as well.
+
+VPCs are region specific.
+
+## VPC subnets
+If a network has a large nmber of hosts without logically grouped subdivisions, managing the many hosts can be a tedious job. Therefore you use subnets to divide a network so the management becomes easier.
+
+Subnets improve traffic flow (speed and performance) of the entire network. An Internet gateway (IGW) receiving a packet and checking which of 5 subnets the packet should be delivered to is much faster checking 100 instances individually.
+Also, if the destination of a packet is within the subnet from where it originates, the traffic stays inside the subnet and doesnt clutter the rest of the VPC.
+Subnets function as a logical groups.
+
+## Network Access Control Lists (NACL)
+Network Access Control Lists are like security groups but for subnets rather than instances. 
+
+Comparison between NACL and SG
+| NACL	| Security Group |
+| *** | *** |
+| Operates at the subnet level |	Operates at the instance level |
+| Supports allow rules and deny rules	| Supports allow rules only |
+| Is stateless: Return traffic must be explicitly allowed by rules |Is stateful: Return traffic is automatically allowed, regardless of any rules |
+| We process rules in order, starting with the lowest numbered rule, when deciding whether to allow traffic	| We evaluate all rules before deciding whether to allow traffic |
+| Automatically applies to all instances in the subnets that it's associated with (therefore, it provides an additional layer of defense if the security group rules are too permissive) | Applies to an instance only if someone specifies the security group when launching the instance, or associates the security group with the instance later on |
+
+For NACL its important that you must also ensure that outbound rules exist alongside the inbound rules.
+The default NACL has a default rule to allow all inbounds and outbounds. This means it exists but doesnt do anything as all traffic passes through.
+On the other hand when you create a new NACL (instead of using the default one), the default rules will deny all inbounds and outbounds.
+
+NACLs are evaluated before security groups and block malicious IPs with NACLs, not security groups.
+
+NACL rules are evaluated by rule number, from lowest to highest so order matters.
+
+If using NAT gateway along with NACL, you must ensure that NAT port range is within the rules of your NACL.
+
+## NAT Instances vs NAT Gateways:
+NAT - Network Address Translation
+
+Attaching an Internet Gateway to a VPC allows instances with public IPs to directly access the internet.
+NAT does the same thing however it is for instances that do not have a public IP. It serves as an intermediate step which allow private instances to first mask their own private IP as the NAT's public IP before accessing the internet.
+
+You would want your private instances to access the internet so that they can have normal software update.
+
+NAT prevents any initiating of a connection from the internet.
+
+NAT instances are individual EC2 instances that perform the function mentioned above.
+Because they are individaul instances, they can become a choke point in your VPC because they are not fault-tolerant  and serve as a single point of failure.
+(thus deprecated but usable)
+
+For scalable solution its far better to use NAT Gateway.
+It is a managed service that is compose of multiple instances linked with each other aithin an AZ to achieve high availability by defualt.
+You just need a route rule to route traffic from a private subnet to your NAT gateway.
+
+## Bastion hosts
+Bastion Hosts are instances to remotely access the instances behind the private subnet for system administration without exposing the host via internet gateway via SSH protocol.
+The best way to implement a Bastion Host is to create a small EC2 instance that only has a security group rule for a single IP address.
+Bastion Host live within public-facing subnet similarly to NAT gateways.
+
+## Route Tables
+Route tables are used to make sure that subnets can communicate with each other and that traffic knows where to go.
+Every subnet that you create is automatically associated with the main route table for the VPC.
