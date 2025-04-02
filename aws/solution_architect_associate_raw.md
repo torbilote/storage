@@ -702,3 +702,89 @@ Bastion Host live within public-facing subnet similarly to NAT gateways.
 ## Route Tables
 Route tables are used to make sure that subnets can communicate with each other and that traffic knows where to go.
 Every subnet that you create is automatically associated with the main route table for the VPC.
+You can have multiple route tables.
+If you dont knwo your new subnet to be associated with the default route table, you must specifya different route table. If the default route table is public then all new subsets associated with it will also be public. Best practise is to ensure that default route table is private meaning there is no route out to the internet for the default route table.
+If you create a custom route table that is public, all new subnets will not have route out to the internet.
+Route tables can be confirued to access endpoints (public services accessed privately) and not just the internet.
+
+## Internet Gateway (IGW)
+It connects your VPC with the internet.
+When a Public IP address is assigned to an EC2 instance, it is effectively registered by the Internet Gateway as a valid public endpoint.
+However each instance is only aware of its private IP and not its public IP. Only the IGW knows the public IPs that belong to instances.
+One IGW per VPC.
+
+## Virtual Private Network (VPN)
+VPN connects your on-prem with your VPC over the internet.
+Virtual Private Network can serve as a bridge between your corporate data center and the AWS cloud.
+With VPN, your VPC becomes an extensino of your on-prem environment.
+You can allow your instances in VPC to communice with your on-premise servers by:
+- attaching virtual private gateway to the VPC
+- creating custom route table for the connection
+- updateing security froup to allow traffic from teh connection
+- creating the managed VPN connection itself.
+
+Also customer gateway resource in AWS must be defined. its a physical device or software app on the on-prem side.
+
+## DirectConnect:
+DirectConnect connects your on-prem with your VPC through a non-public tunnel.
+It established a dedicated network connection between your premises and AWS.
+Reduces network costs and increases bandwidth comparing to internet-based connections.
+Use case is high throughput workloads or if you need stable and reliable connection.
+
+## VPC Endpoints
+VPC Endpoints connect your VPC with AWS services through a non-public tunnel.
+It ensures that you can connect your VPC to supported AWS resources without requiring internet gateway, NAT devide or any other connection service.
+Traffic between VPC and AWS services stay within the AWS ecosystem.
+
+## PrivateLink
+PrivateLink connects your AWS services with other AWS services through a non-public tunnel.
+It simplifies the security of data shared with cloud-based applications by eliminating the exposure of data to the public internet.
+Provides private connectivity between different AWS services within Amazon network.
+
+## VPC Peering
+VPC Peering connects your VPC to another VPC through a non-public tunnel.
+Allows to connect one VPC with another via direct network route using private IPs belonging to both.
+Instances in different VPCs behave as if they were on the same network.
+Usual practise is that there is only one central VPC that peers with others. Only the central can talk to the other VPCs.
+CIDR blocks cannot overlap.
+
+## VPC Flow Logs
+VPC Flow Logs is a feature that captures the IP information for all traffic flowing into and out of your VPC.
+Data is sent to an S3 bucket or CloudWatch where you can view, retreive and analyze this data.
+It captures packets metadata and not packets contents so things like source IP, destination IP, packet size. It catches traffic flowing into and out of VPC, subnets and network interfaces of EC2 instances.
+Can be configurable according to the needs.
+
+## AWS Global Accelerator (GA)
+Global Accelerator accelerates connectivity to improve performance and availability for users.
+It directs traffic to optimal endpoints worldwide.
+By default it provides you two static IP addresses that you can make use of.
+Its fast and reliable pipeline between user and application.
+
+Compared to CloudFront - Cloudfront simply caches static content to the closest AWS Point of Presence (POP) location, while GA use the same POP accept initial requests but then routes them directly to the services.
+Compared to Route53 - Route53 simply help choosing which region for the user to use. Route54 has nothing to do with actually providing a fast network path.
+
+# Simple Queuing Service (SQS)
+Simple Queuing Service is web-based service that give you access to message queue that can be used to store messages while waiting for another service to process them.
+The main point is to decouple work across systems. This way, downstream services in a system can perform work when they are ready to rather  than when upstream services feed them data. 
+Pull-based service meaning the downstream service queries SQS for information.
+Two types of SQS queues:
+-standard queues: messages might be received out of order based on message size or however queues decide to optimize. Guaranteee that a message is delivered at least once making it possible on occasion that a message might be delivered more than once due to the asynchronous and highly distributed architecture. Nearly unlimited number of transactions per second.
+- FIFO queues: guarantees that the order of messages that went int the queue is the same as the order of messages that leave it. Also guaranteed exactly-once processing but is limited to 300 transactions per second.
+
+Messages in the queue can be kept there from one minute to 14 days.
+
+Visibility timeout is a mechanism in which messages marked for delivery are given the time frame to be fully received by a reader. This is done by temporarily making them invisible to other readers. If the message is not fully processed within the time limit, the message becomes visible again. This is another way in which messages can be duplicated. If you want to reduce the chance of duplication, increase the visibility timeout. Max is 12 hours.
+
+Messages in SQS continue to exist after the message is processed, until you delete it. You have to ensure that you delete the message after processing to prevent the message being processed again.
+
+Unlimited number of messages in the queue.
+
+SQS Polling:
+Polling means you query SQS for messages.
+Long-polling: - technique will only return from the queue once a message is there, regardless if the queue is currently full or empty. The reader needs to wait either for a message to finally arrive or for the timeout. It does not return a response until a message arrive in the queue, reducing your overall cost over time.
+Short-polling: Technique will return immediately with either a message that's already stored in the queue or empty.
+By default, it uses short-polling as ReceiveMessageWaitTimeSeconds queue attribute is set to 0. If it is set to integer value greater than 0, then its long-polling.
+
+Every time you poll the queue, you incur a charge.
+
+# Simple Workflow Service
