@@ -787,4 +787,99 @@ By default, it uses short-polling as ReceiveMessageWaitTimeSeconds queue attribu
 
 Every time you poll the queue, you incur a charge.
 
-# Simple Workflow Service
+# Simple Workflow Service (SWF)
+Simple Workflow Service is a web service that coordinate tasks between application and people. It is a service that combines digital and human-oriented workflows.
+Provides a task-oriented API.
+The SWF pipline is composed of three different worker apps:
+- SWF actors - workers to trigger the beginning of a workflow
+- SWF deciders - workers that control the flow of the workflow once it has been started
+- SWF activity workers - workers that carry out the task to completion
+
+
+# Simple Notification Service (SNS)
+Simple Notification Service is a pushed-based messaging service that provides a highly scalable, flexible and cost-effective method to publish custom messages to subscribers who wish to be informed about a certain topic.
+Mainly used to send alarms or alerts.
+Provides topics for high-throughput.
+Publisher can fan out messages to a large number of subscriber endpoints for pararell processing including SQS, Lambdas and HTTP webhooks.
+Can be also used to fan out notifications to end users using mobile push, SMS and email.
+It allows you to group subscribers using topics. A topic is an access point for allowing recipients to dynamically subcsribe for the identical copies of the same notification.
+One topic can support deliveries to multiple endpoint types.
+Messages are stored redundantly across multiple AZs.
+
+# Kinesis
+Kinesis collects, process and analyze real-time streaming data.
+You can ingest real-time data such as video, audio, app logs, website clickstreams, and IoT telemetry data.
+It enables you to process and analyze data as it arrives insteed of having to wait until all data is collected before processing can begin.
+Fully managed service that automatically scales to match throughput.
+
+Kinesis Streams:
+Works where the data producers stream data into Kinesis Streams which can retain the data up to 7 days.
+Once data is inside Kinesis Streams, the data is contained within shards.
+It can continuously capture and store terabytes of data per hours from thousands of sources.
+
+Kinesis Firehose:
+Easiest way to load streaming data into data stores and analytics tools.
+When data is streamed into it, there is no persistent storage to hold onto it.
+Can capture, transform and load streaming data into S3, Redshift, Elasticsearch enabling near real-time analytics.
+
+Kinesis Analytics:
+Works both with Streams and Firehose and can analyze data on the fly.
+Data is sent elsewhere once it is finished procesing.
+
+Partition keys are used with Kinesis so you can organize data by shard.
+
+# Lambda
+AWS Lambda lets  you run code without provisioning or managing servers. 
+You pay only for the compute time you consume.
+Zero administration.
+You upload your code and Lambda takes care of everything required to run and scale your code with high availability.
+You can set up your code to be automatically triggered from other AWS services or be called directly from any app.
+Ultimate abstraction layer. Serverless.
+Supports Go, Python, C#, Powershell, Node.js, Java
+Each lambda function maps to one request.
+Its priced on the number of requests and the first one milion are free. Afterwards each milion costs.
+Also priced on the runtime of your code, rounded up to the neareast 100mb, and the amount of memory your code allocates.
+Lambda functions can trigger other lambda functions.
+Can be used as event-driven service.
+
+When lambda functions use environment variables, they are encrypted using KMS. When lambda is invoked, those values are decrypted.
+
+AWS X-Ray allows you to debuf your lambda function in case of unexpected behaviour.
+
+Lambda@Edge - allows your lambda functions to customize the content that CloudFront delivers. It adds compute capacity to your cloudfront edge locations and alows you to execut the functions closer to your app's viewers.
+Functions run in response to cloudfront events without provisioning or managing servers.
+You can use lambda functions to change cloudfront requests and responses at the following points:
+- after CF receives a request from a viewer,
+- before CF forwards the request to the origin,
+- After CF recevies the response from origin,
+- Before CF forwards the response to viewer
+
+# API Gateway
+Fully managed service to build, publish, manage and secure entire APIs.
+Handles all tasks involved in accpeting and processing thousands of concurrent API calls, including traffic management, authorization and access control and monitoring.
+No minimum fees or startup costs. You pay only for the API calls and the amount of data transferred out.
+Functionality:
+- exposes HTTP(S) endpoins for RESTful functionality
+- uses serverless functionality to connect to lambda & DynamoDB
+- Can send each API endpoint to a different target
+- Runs cheaply and efficiently
+- Scales readily and eforrtlessly
+- Can be version controlled
+- Can be conntected to CloudWatch for monitoring and observability
+- can throttle requests to prevent attacks
+
+## sidenote
+Throttling process is a process responsible for regulating the rate at which application processing is conducted, either statically or dynamically.
+
+API owners can set a rate limit of 1k requests per second for specific API method.
+API Gateway tracks the number of requests, any requests over the limit will receive 429 HTTP response.
+
+You can add caching to API by provisioning API Gateway cache and specyfing the size. Improves performance and reduce the traffic.
+
+Supports AWS Certificate Manaager and can make use of free TLS/SSL certificates.
+
+Cross Origin Resource Sharing (CORS):
+- Same-origin policy is a concept where a web browser permits scripts contained in one page to access data from another page but only if both pages have the same origin. Enforced by browsers, but ignored by tools like curl or postman.
+- CORS allows sharing of restricted resources to be requested from another domain outside the original domain. 
+
+
