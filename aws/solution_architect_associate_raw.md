@@ -882,4 +882,102 @@ Cross Origin Resource Sharing (CORS):
 - Same-origin policy is a concept where a web browser permits scripts contained in one page to access data from another page but only if both pages have the same origin. Enforced by browsers, but ignored by tools like curl or postman.
 - CORS allows sharing of restricted resources to be requested from another domain outside the original domain. 
 
+# CloudFormation
+CloudFormation is an automated tool for provisioning entire cloud-based environments. Similar to terraform - infrastructure as code (IaC).
+Its templates are used for advanced setups consist of many connected services.
+CloudFormation can create, update and delete infrastructure.
+Template written in YAML or JSON.
+Full CloudFormation is called a stack.
+An example template that would spin up EC2 instance:
+```yaml
+Resources:
+  Instance: ## logical resource
+    Type: 'AWS::EC2::Instance' ## This is what will be created
+    Properties: ## Configure the resources in a particular way
+      ImageId: !Ref LatestAmiId
+      Instance Type: !Ref Instance Type
+      KeyName: !Ref Keyname
+```
 
+# ElasticBeanstalk
+ElasticBeanstalk is another way to script out your provisioning process. It is much simplified than CloudFormation. For less experienced developers.
+Just upload your application and it will take care of the underlying infrastructure.
+
+
+# AWS Organizations
+AWS Organizations is an account management service that enables you to consolidate multiple AWS accounts into an organization that you create and centrally manage.
+Best practise is to use root account to manage billing only with seperate accounts used to deploy resources.
+The point is to properly manage policies around users and services to help centraly govern your environment.
+Organizational Units (OUs) can group similar accounts together to administer as a single unit to simplify the management.
+You can attach a policy-based control to an OU and all accounts within OU will automatically inherit the policy.
+With AWS Organizations you can enable or disacle services using Service Control Policies (SCPs) for orgnaizational units or individual accounts.
+
+
+---
+Less important
+
+# Web Identity Federation
+Lets you give your users access to AWS resources after they have successfully authenticated int oa web-based identity provider such as Facebook, Google, Amazon etc. Following a successfull login into these services, the user is provided an auth code from the identity provider which can be used to gain temporary AWS credentials.
+# Amazon Cognito
+AWS service that provides Web Identity Federation. Cognito's job is broker between your app and legitimate authenticators.
+Cognito User Pools - are user directories that are used for sign-up and sign-in functionality. Successfull authentication generates JSON web token. Handles registration, recovery and authentication.
+Cognito Identity Pools - are used to allow users temp access to direct AWS services like S3, or DynamoDB. It grants you the IAM role.
+For non-IAM users, SAML-based authentication can be used to log in (ie. Microsoft Active Directory).
+
+You can use Cognito to deliver temporary, limited-priviledgge credentials to your application.
+
+# AWS Resource Access Manager (RAM)
+Resource Access Manager is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization.
+RAM eliminates the need to create duplicate resources in multiple accounts reducing the operational overhead of managing those resources in every single account you own.
+Available at no additional charge.
+
+# Athena
+Athena is an interactive query service which allows you to interact and query data from S3 using standard SQL commands.
+Serverless.
+You pay per query and per TB scanned.
+You basically use s3 as SQL supported database.
+
+# Personal Identifiable Information (PII)
+Personal data used to establish an individual's identity which can be exploited such phone number, home address, email addres etc.
+# AWS Macie
+An ML-powered security service that helps you prevent data loss by automatically discovering, classyfing and protecting sensitive data stored in S3.
+
+# AWS Key Management Service (KMS)
+Key Management Service is a managed service for creating and controling the encryption keys used to encrypt your data.
+Integrated with most of other AWS services.
+
+# AWS Secret Manager
+Is a service for managing secrets like database credentials, passwords, third-party API keys or arbitrary text.
+You can store and control access to these secrets centrally by secret maanger.
+Secret Manager can automatically rotate secret for you on a schedule to reduce the risk of compromise.
+
+# AWS Security Token Service (STS)
+Security Token Service is the service that create and provide trusted users with temporary security credentials that grant access to AWS resources.
+These credentials are short term lasting from few minutes to several hours. 
+
+# OpsWorks
+OpsWorks is a configuration management service that provides managed instances of Chef and Puppet. These are automated platforms to allow using code for configuration automation of your servers.
+
+# Elastic Transcoder
+Elastic Transcoder is a media transcoder in the cloud that converts media files from their original format to the specified one.
+Pay per minute of transcode job and the resolution of finished work.
+
+# AWS Directory Service
+Provides multiple ways to use Amazon Cloud Directory and Microsfot Active Directory with other AWS services.
+
+# IoT Core
+Managed service that lets connected devices easily and securely interact with cloud applications and other devices.
+Provides communication and data processing across different kind of devices and locations.
+
+# AWS WorkSpaces
+WorkSpaces is a managed, secure Desktop-as-a-Service solution. Use to provision either Windows or Linux desktops to workers across the globe.
+Quickly scalable.
+Eliminates complexity in managing desktop delivery strategy.
+
+# AWS Fargate
+Fargate is serverless compute engine for containers.
+Allows you to run your containeraized applications without the need to provision and manage the backend infrastructure.
+Works with Elasitc Container Service (ECS) and Elastic Kubernetes Service (EKS).
+Removes the need to provision and manage servers.
+
+# Elastic Container Service
