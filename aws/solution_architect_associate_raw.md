@@ -980,4 +980,27 @@ Allows you to run your containeraized applications without the need to provision
 Works with Elasitc Container Service (ECS) and Elastic Kubernetes Service (EKS).
 Removes the need to provision and manage servers.
 
-# Elastic Container Service
+# Elastic Container Service (ECS)
+Elastic Container Service (ECS) is a fully managed container orchestration service.
+Eliminates the need to install, manage and scale own cluster management infrastructure.
+Can use simple API calls to manage apps and access many features integrated with other AWS services.
+
+# Elastic Kubernetes Service (EKS)
+Elastic Kubernetes Service (EKS) is a fully managed Kubernetes service.
+You can leverage all benefits of open source tooling from the Kubernetes community.
+Easy to migrate any standard Kubernetes apps.
+Integrated with other AWS services.
+
+## sidenote
+Kubernetes is open source software that allows you to deploy and manage containerized applications at scale.
+
+# Data Lifecycle Manager (DLM)
+Data Lifecycle Manager (DLM) is used to automate the creation, retention and deletion of snapshots taken to back up your EBS volumes.
+
+# MQ 
+MQ is managed message broker service to easy set up and operate message brokers in the cloud.
+Used when migrating services and apps into the cloud from your on-prem.
+
+# AWS Config
+AWS Config is a service that enables you to audit and evaluate configurations of your AWS resources.
+It monitors and records your resource configurations and allow you to automate the evaluation of recorded configurations against desired configurations.
