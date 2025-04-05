@@ -1,3 +1,41 @@
+# Identity Access Management (IAM)
+Identity Access Management (IAM) offers a centrialized hub of control within AWS and integrates with all other AWS services.
+Ability to share access at various levels of permission.
+Ability to use identity federation (delegating authentication to trusted external party).
+Multi Factor Authentication (MFA) and password rotation policy supported
+
+Entities:
+Users: any individual end user such as employee, system architect, CTO etc.
+
+Groups: any collection of similar people with shared permissions such as system admins, HR employes, finance teams etc.
+Each user within their specific group will inherit the permissions set for the group.
+
+Roles: any software service that needs to be granted permissions to do its job eg. Lambda needing write permissions to S3 or EC2 instance needing read permission from RDS.
+
+Policies: the documented rule sets that are applied to grant or limit access. In order for users, groups or roles to properly set permissions, they use policies.
+Policies are written in JSON and you can either use custom policies or default ones.
+Policies are separated from other entities above because they are not an IAM Identity. Instead, they are attached to IAM Identities so that the IAM identity can perform necessary function.
+
+IAM is global service, not limited by regions.
+The root account with complete admin access is the account used to sign up for AWS.
+Any new users created have no permissions. 
+
+You can change permissions as many times as you need.
+
+IAM Policies can easily add tags that help define which resources are accessible by whom.
+
+Priority Levels in IAM:
+1) Explicit Deny: Denies access to a particular resource and this ruling cannot be overruled.
+2) Explicit Allow: Allow access to a particular resource so long as there is no an associated Explicit Deny.
+3) Default Deny (or Implicit Deny): IAM identities start off with no resource access. Access instead must be granted.
+
+IAM Access Advisor:
+Access advisor show service permissions granted to a user and when those services were last accessed.
+You can use this information to revise your policies.
+
+IAM Credentials Report:
+report that lists all of your account users and the status of their various credentials.
+
 # Simple Storage Service (S3)
 
 data storage. data storage architecture - data as an objects.
