@@ -5,14 +5,14 @@ Ability to use identity federation (delegating authentication to trusted externa
 Multi Factor Authentication (MFA) and password rotation policy supported
 
 Entities:
-Users: any individual end user such as employee, system architect, CTO etc.
+- Users: any individual end user such as employee, system architect, CTO etc.
 
-Groups: any collection of similar people with shared permissions such as system admins, HR employes, finance teams etc.
+- Groups: any collection of similar people with shared permissions such as system admins, HR employes, finance teams etc.
 Each user within their specific group will inherit the permissions set for the group.
 
-Roles: any software service that needs to be granted permissions to do its job eg. Lambda needing write permissions to S3 or EC2 instance needing read permission from RDS.
+- Roles: any software service that needs to be granted permissions to do its job eg. Lambda needing write permissions to S3 or EC2 instance needing read permission from RDS.
 
-Policies: the documented rule sets that are applied to grant or limit access. In order for users, groups or roles to properly set permissions, they use policies.
+- Policies: the documented rule sets that are applied to grant or limit access. In order for users, groups or roles to properly set permissions, they use policies.
 Policies are written in JSON and you can either use custom policies or default ones.
 Policies are separated from other entities above because they are not an IAM Identity. Instead, they are attached to IAM Identities so that the IAM identity can perform necessary function.
 
@@ -46,7 +46,7 @@ highly-scalable, secure, durable.
 | object storage | block storage |
 | --- | --- |
 | perform best for big content and high stream | perform strong with database and transactional data |
-| data can be stored across multiple regions | the greater the distance between storage and app th higher latency |
+| data can be stored across multiple regions | the greater the distance between storage and app the higher latency |
 | can scale infinitely to petabytes and beyond | limited scalability |
 | customizable metadata allows to data to be easily organized | no metadata |
 
@@ -125,6 +125,7 @@ Deletes are not replicated.
 
 S3 transfer acceleration:
 make use of CloudFront network by sending or reciving data at CDN points instead of uploads/downloads at the origin.
+Supports high speed transfer in edge locations.
 
 S3 Event Notifications:
 Enables to receive and send notifications when certain events happen in your bucket. Need to configure the events you want S3 to publish and where you want S3 to sent notifications.
@@ -190,6 +191,8 @@ Use signed URLs when:
 Use signed cookies when:
 - You want to provide access to multiple restricted files.
 - You dont want to change your current URLs.
+
+Improves performance for both cacheable content (images, videos) by caching it and dynamic content by  maintains a persistent pool of connections.
 
 # Snowball
 
@@ -279,6 +282,8 @@ Ability to create snapshots/backups of the volume and write copy to S3.
 You can moidfy volumes on the fly (size, storage type)
 
 SSD-backed volumes recommended for IOPS heavy workloads whereas HDD-backed for throughput heavy workload.
+
+fast snapshot restore (FSR) -  enables you to create a volume from a snapshot that is fully initialized at creation. Low latency. Instant delivery of performance.
 ## sidenote
 
 IOPS - Input/Output Per Second - measures the number of read and write operations a device can perform
@@ -357,7 +362,7 @@ Helps centralize the logs from all of your systems, applications and AWS service
 Can create log groups.
 
 CloudWatch Events:
-Delivers near real-time stream of system events. Events can be used to trigger lambdas.
+Delivers near real-time stream of system events. Events can be used to trigger lambdas. Redefined as Amazon EventBridge.
 
 CloudWatch Alarms:
 Sends norifications or automatically make changes to resources you are monitoring based on rules you define.
@@ -773,6 +778,8 @@ Use case is high throughput workloads or if you need stable and reliable connect
 VPC Endpoints connect your VPC with AWS services through a non-public tunnel.
 It ensures that you can connect your VPC to supported AWS resources without requiring internet gateway, NAT devide or any other connection service.
 Traffic between VPC and AWS services stay within the AWS ecosystem.
+You can use VPC endpoint to connect EC2 and S3 without connectivity to the internet.
+
 
 ## PrivateLink
 PrivateLink connects your AWS services with other AWS services through a non-public tunnel.
@@ -793,13 +800,16 @@ It captures packets metadata and not packets contents so things like source IP, 
 Can be configurable according to the needs.
 
 ## AWS Global Accelerator (GA)
-Global Accelerator accelerates connectivity to improve performance and availability for users.
+Global Accelerator accelerates connectivity over TCP or UDP to improve performance and availability for users.
 It directs traffic to optimal endpoints worldwide.
 By default it provides you two static IP addresses that you can make use of.
 Its fast and reliable pipeline between user and application.
 
-Compared to CloudFront - Cloudfront simply caches static content to the closest AWS Point of Presence (POP) location, while GA use the same POP accept initial requests but then routes them directly to the services.
+Compared to CloudFront - both use global network, Cloudfront simply caches static content to the closest AWS Point of Presence (POP) location, while GA use the same POP accept initial requests but then routes them directly to the services.
 Compared to Route53 - Route53 simply help choosing which region for the user to use. Route54 has nothing to do with actually providing a fast network path.
+
+Good fit for non-HTTP use csaes such as gaming (UDP), IoT (MQTT).
+For HTTP good fit when use case require static IP addresses.
 
 # Simple Queuing Service (SQS)
 Simple Queuing Service is web-based service that give you access to message queue that can be used to store messages while waiting for another service to process them.
@@ -950,6 +960,15 @@ Organizational Units (OUs) can group similar accounts together to administer as 
 You can attach a policy-based control to an OU and all accounts within OU will automatically inherit the policy.
 With AWS Organizations you can enable or disacle services using Service Control Policies (SCPs) for orgnaizational units or individual accounts.
 
+aws:PrincipalOrgID - This global key provides an alternative to listing all the account IDs for all AWS accounts in an organization. It simplifies specifying the Principal element in a resource-based policy.
+
+# EventBridge
+EventBridge is a serverless service that uses events to connect application components together, making it easier for you to build scalable event-drvien applications.
+Provides a way to ingest, filter, transform and deliver events.
+Two ways to process events:
+- Event buses - routers that receive events and delivers them to zero or more targets. Well-suited for routing from many sources to many targets with optional transofmration.
+- Pipes - intendede for point-to-point integrations meaning it receives events from single source for processing and delivery to a single target.
+Often used together so pipe with an event bus as its target.
 
 ---
 Less important
@@ -1042,3 +1061,22 @@ Used when migrating services and apps into the cloud from your on-prem.
 # AWS Config
 AWS Config is a service that enables you to audit and evaluate configurations of your AWS resources.
 It monitors and records your resource configurations and allow you to automate the evaluation of recorded configurations against desired configurations.
+
+# GuardDuty
+is a threat detection service.
+
+# Traffic Mirroring
+is a feature that allows you to replicate and send a copy of network traffic from a VPC to another VPC or on-premises location.
+
+# Firewall Manager
+is a security management service that helps you to centrally configure and manage firewalls across your accounts.
+
+# Network Firewall
+is a managed firewall service that provides filtering for both inbound and outbound network traffic. It allows you to create rules for traffic inspection and filtering, which can help protect your production VPC.
+
+# QuickSight
+is a data visualization service that allows you to create interactive dashboards and reports from various data sources, including Amazon S3 and Amazon RDS for PostgreSQL. You can connect all the data sources and create new datasets in QuickSight, and then publish dashboards to visualize the data. You can also share the dashboards with the appropriate users and groups, and control their access levels using IAM roles and permissions.
+
+# Gateway Load Balancer
+is a fully managed service that provides a single point of contact for clients and distributes incoming traffic across multiple targets, such as Amazon Elastic Compute Cloud (EC2) instances and containers, in one or more virtual private clouds (VPCs).
+Operates at Layer 3 – listens for all packets on all ports.
