@@ -10,11 +10,14 @@ Entities:
 - Groups: any collection of similar people with shared permissions such as system admins, HR employes, finance teams etc.
 Each user within their specific group will inherit the permissions set for the group.
 
-- Roles: any software service that needs to be granted permissions to do its job eg. Lambda needing write permissions to S3 or EC2 instance needing read permission from RDS.
+- Roles: any software service that needs to be granted permissions to do its job eg. Lambda needing write permissions to S3 or EC2 instance needing read permission from RDS. In other words, roles are used for delegation and are assumed.
 
 - Policies: the documented rule sets that are applied to grant or limit access. In order for users, groups or roles to properly set permissions, they use policies.
 Policies are written in JSON and you can either use custom policies or default ones.
 Policies are separated from other entities above because they are not an IAM Identity. Instead, they are attached to IAM Identities so that the IAM identity can perform necessary function.
+
+Identity-based policies can be applied to users, groups and roles.
+Resource-based policies can be applied to resource like S3 or EC2. It defines permissions for a principal accessing the resource.
 
 IAM is global service, not limited by regions.
 The root account with complete admin access is the account used to sign up for AWS.
@@ -35,6 +38,92 @@ You can use this information to revise your policies.
 
 IAM Credentials Report:
 report that lists all of your account users and the status of their various credentials.
+
+Permission boundaries sets the maximum permissions an identity-based policy can grant an IAM entity.
+
+Reading IAM Policies:
+Each AWS Service has its own set of actions that describe tasks you can perform with that service
+ie.:
+Amazon EC2
+```json
+"Action": "ec2:RunInstances"
+```
+
+Amazon S3
+```json
+"Action": "s3:GetObject"
+```
+
+Example of IAM Permissions Policy:
+```json
+{
+  "Version": "2012-10-17", 
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:*",
+        "dynamodb:Describe*",
+        "dynamodb:List*",
+        "dynamodb:GetItem"
+      ],
+      "Resource": [
+        "arn:aws:s3:::mys3bucket",
+        "arn:aws:s3:::mys3bucket/*",
+        "arn:aws:dynamodb:us-east-1:11112223333:table/mytable"
+      ]
+    }
+  ]
+}
+```
+Effect - either allow or deny
+Action - lists of specific resource operations that the policy affects
+Resource - lists the specific resources that the policy applies to
+
+* - means wildcard meaning "all"
+:: - leaving empty part in resource name evaluates in ??? #TODO
+
+Example of IAM Trust Policy:
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sts:AssumeRole"
+            ],
+            "Principal": {
+                "Service": [
+                    "ec2.amazonaws.com"
+                ]
+            }
+        }
+    ]
+}
+```
+Principal - can be IAM user, role or AWS service that will be able to assume the specified role 
+
+Trust Policy vs Permissions Policy:
+Trust policy is needed when creating a new role and it defines what principals can perform an action of Security Token Service (STS) (like AssumeRole or GetSecurityToken) on this role.
+Permissions Policy defines what actions the given role can perform within AWS environment.
+For example you create a role named 'MyEC2Role' and define a trust policy to allow EC2 instances to assume the role (authorize as this role).
+Later on, you define a permission policy to allow newly created role 'MyEC2Role' to perform read actions on specific S3 buckets.
+
+IAM policy simulator helps you to understand what actions the user, group or role is allowed or denied to perform.
+
+
+IAM Identity Center
+Centralized place to manage accesses to AWS console for users providing features like single sign on (SSO) etc. 
+
+Best practises:
+- require human users to use federation with an identity provider to access AWS using temporary credentials
+- require workloads to use temporary credentials with IAM roles to access AWS
+- require MFA
+- for use cases that require long-term credentials, rotate access keys regularly
+- don't use root user for everyday tasks
+- apply least-privilege permissions
+- use permissions boundaries to delegate permissions management within an account
 
 # Simple Storage Service (S3)
 
@@ -248,7 +337,7 @@ Reserved instances - 1 - 3 year contract term. Provides significant discounts at
 Spot instances - Only available when Amazon has excess capacity. You must financially bid for access. Instance can be stopped due to a price change. Usually used in batch processing jobs when your app has flexible start and end times.
 
 Standard Reserved - Inflexible reservations. Discounted significantly. Cannot be moved between regions.
-Convertible Reserved - Less discounted. You can modify the instance type at any point. 
+Convertible Reservedf - Less discounted. You can modify the instance type at any point. 
 Scheduled Reserved - Reserved according to specified timeline.
 
 Security:
@@ -259,8 +348,14 @@ Placement Groups:
 balance the tradeoff between risk tolerance and network performance in your fleet of EC2 instances.
 
 Clustered placement groups: when you put all of your EC2 insstances in a single availability zone. Recommended for apps that need the lowest latency possible and the highest network thoroughput.
-Spread placement groups: when you put each individual EC2 instance on its own distinct hardward so that the failure is isolated. Recommended for apps that have a small number of critical instances.
+Spread placement groups: when you put each individual EC2 instance on its own distinct hardware so that the failure is isolated. Recommended for apps that have a small number of critical instances.
 Partitioned Placement groups; similar to former, but multiple instances can be within a single partition and partitions are isolated. Balanced solution.
+
+Can be attached to the network via Elastic Network Interface (ENI).
+Elastic Block Store (EBS) volumes can be attached to EC2 instances for persistent storage.
+
+User data: code to be run the first time you launch your instance (like bash script).
+Metadata: information about your EC2 instance from within your instance that you can get from sending an http request to 169.254.169.254 server (IMDS v1 and v2).
 
 # Elastic Block Store (EBS)
 Elastic Block Store (EBS) volume is durable block-level storage device. Think of it as cloud-based virtual hard disk.
@@ -295,7 +390,7 @@ EBS Snapshots:
 Point in time copies of volumes. Capture the state of change from when last snapshot was taken.
 First one can take a while.
 
-Root Device Storage:
+Root Device Storage / Instance Store:
 All AMI root volumes are of two types: EBS-backed or Instance Store-backed.
 When delete EC2 instance that was instance store-backed - your root volume will be also deleted.
 When its ebs-backed - root volume will not be terminated.
@@ -314,9 +409,18 @@ What is encrrypted:
 - all volumes created from those snapshots
 
 # Elastic Network Interfaces (ENI)
-Elastic Network Interfaces (ENI) is networking component that represents a virtual network card.
+Elastic Network Interfaces (ENI) is networking component/adapter that represents a virtual network card.
 Mainly used for low-budget, high-availability network solutions
-If you need high throughput you cna use Enhanced Networking ENI but the downside is that is not available on all EC2 instance types.
+If you need high throughput you can use Enhanced Networking ENI but the downside is that is not available on all EC2 instance types.
+
+# Elastic Network Adapter (ENA)
+Elastic Network Adapter (ENA) is networking component/adapter that represents a virtual network card.
+Enhanced networking performance, higher bandwidth and lower inter-instance latency comparing to ENI.
+
+
+# Elastic Fabric Adapter (EFA)
+Elasit Fabric Adapter (EFA) is networking component/adapter that represents a virtual network card.
+For high performance computing, ML use cases.
 
 # Security Groups (SG)
 Security Groups are used to control access to EC2 (SSH, HTTP, etc.).
@@ -731,11 +835,14 @@ NAT prevents any initiating of a connection from the internet.
 
 NAT instances are individual EC2 instances that perform the function mentioned above.
 Because they are individaul instances, they can become a choke point in your VPC because they are not fault-tolerant  and serve as a single point of failure.
+In NAT instances you have must disable source/destination checks.
 (thus deprecated but usable)
 
 For scalable solution its far better to use NAT Gateway.
 It is a managed service that is compose of multiple instances linked with each other aithin an AZ to achieve high availability by defualt.
 You just need a route rule to route traffic from a private subnet to your NAT gateway.
+
+NAT gateway is created in the public subnet.
 
 ## Bastion hosts
 Bastion Hosts are instances to remotely access the instances behind the private subnet for system administration without exposing the host via internet gateway via SSH protocol.
@@ -970,9 +1077,6 @@ Two ways to process events:
 - Pipes - intendede for point-to-point integrations meaning it receives events from single source for processing and delivery to a single target.
 Often used together so pipe with an event bus as its target.
 
----
-Less important
-
 # Web Identity Federation
 Lets you give your users access to AWS resources after they have successfully authenticated int oa web-based identity provider such as Facebook, Google, Amazon etc. Following a successfull login into these services, the user is provided an auth code from the identity provider which can be used to gain temporary AWS credentials.
 # Amazon Cognito
@@ -1080,3 +1184,21 @@ is a data visualization service that allows you to create interactive dashboards
 # Gateway Load Balancer
 is a fully managed service that provides a single point of contact for clients and distributes incoming traffic across multiple targets, such as Amazon Elastic Compute Cloud (EC2) instances and containers, in one or more virtual private clouds (VPCs).
 Operates at Layer 3 – listens for all packets on all ports.
+
+# Amazon Resource Name (ARN)
+Globally unique ID of an individual AWS resource.
+
+# Public IP Addresses
+Public IP address is the address that is used to communicate with outside world.
+By default the public IP address is a dynamic address meaning each time you restart your instance it gets different public IP assigned.
+Public IPs are chargeable.
+
+Elasic IP address is a static public IP address meaning the address is fixed and won't change over time.
+
+Public IP addresses are actually assigned to the virtual network interfaces (ENI, ENA, EFA) and not to the EC2 instance directly.
+
+Elastic IP address can be moved between instances and network adapters.
+For example if one EC2 instance fails, you can map your network adapter to new instance keeping the same configuration and same public IP address.
+
+Elastic IP can be associated with either an EC2 instance or with network adapter.
+
