@@ -703,14 +703,18 @@ Availble policies are:
 # Elastic Load Balancers (ELB)
 Elastic Load Balancers automatically distributes incoming application traffic across multiple targets such as EC2 instances, Docker containers,
 IP addresses and Lambda Functions.
+
+Target group is the group of targets that load balancer routes the traffic and performs health checks like mentioned EC2 instances, lambdas, etc.
+
 High availability, automatic scaling, robust security.
 Can be internet facing or application internal.
 To route domain traffic to ELB use Route 53 and create Alias record.
 ELB never have its own IPv4 (in opposite for network load balancers).
 
-In AWS there are three types of Load Balancers:
+In AWS there are four types of Load Balancers:
 - Application LB - best suited for HTTP(S) traffic. Balance load on 7th layer. Support path-based routing, host-based routing. Support containerized apps. 
 - Network LB - best suited for TCP traffic when performance is required. Balance load on 4th layer. Capable of managing milions of requests per second with low latency.
+- Gateway LB - operates at Layer 3 – listens for all packets on all ports. Deploy, scale and manage 3rd party virtual network appliances. Centralized inspection and monitoring, firewalls, intrusion detection.
 - Classic LBs - legacy ELB, balance either HTTP(S) or TCP, but not both.
 
 The lifecycle of a request to view a website behind an ELB:
@@ -724,15 +728,21 @@ The lifecycle of a request to view a website behind an ELB:
 
 Load balancers are regional. They do not balance load across different regions.
 
+## sidenote
+Storing Session State
+Session data such as authentication details are stored in ie. DynamoDB table or ElastiCache and instance retrieves session data from DB table.
+When one EC2 instance fails, then another instance can still authorize the user by retrieving the session data from DB table so the user does not need to reauthenticate.
+
 ELB Advanced Features:
 X-Forwarded-For header - forwards requester's IP address along with the actual request to backend servers.
-Sticky Sessions - bind given user to the specific instance. All the interaction with the application will be directed to the same host.
+Sticky Sessions - bind given user to the specific instance based on cookie generated bounded to the client for the cookie lifetime. All the interaction with the application will be directed to the same host.
 Path Patterns - directs requests based on URL path.
 
 Cross Zone Load balancing - feature that guarantees even distribution across Availability Zones
 SSL/TLS & HTTPS decryption burden on the load balancer.
 Perfect Forward Secrecy - additional safeguards. Frequent and automatic key changes.
 
+Secure Listener - provides encrpytion in transit 
 # Auto Scaling
 Auto scaling lets you build scaling plans that automate how groups of different resources respond to changes in demand.
 Optimize availability, costs or a balance of both.
@@ -1180,10 +1190,6 @@ is a managed firewall service that provides filtering for both inbound and outbo
 
 # QuickSight
 is a data visualization service that allows you to create interactive dashboards and reports from various data sources, including Amazon S3 and Amazon RDS for PostgreSQL. You can connect all the data sources and create new datasets in QuickSight, and then publish dashboards to visualize the data. You can also share the dashboards with the appropriate users and groups, and control their access levels using IAM roles and permissions.
-
-# Gateway Load Balancer
-is a fully managed service that provides a single point of contact for clients and distributes incoming traffic across multiple targets, such as Amazon Elastic Compute Cloud (EC2) instances and containers, in one or more virtual private clouds (VPCs).
-Operates at Layer 3 – listens for all packets on all ports.
 
 # Amazon Resource Name (ARN)
 Globally unique ID of an individual AWS resource.
