@@ -1208,3 +1208,5 @@ For example if one EC2 instance fails, you can map your network adapter to new i
 
 Elastic IP can be associated with either an EC2 instance or with network adapter.
 
+# AWS Control Tower
+Allows you to create a landing zone which is a well architected multi account baseline
