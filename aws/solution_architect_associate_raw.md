@@ -860,12 +860,19 @@ The best way to implement a Bastion Host is to create a small EC2 instance that 
 Bastion Host live within public-facing subnet similarly to NAT gateways.
 
 ## Route Tables
-Route tables are used to make sure that subnets can communicate with each other and that traffic knows where to go.
+Route tables are used to make sure that subnets can communicate with each other and with the external network/internet and that the traffic knows where to go.
 Every subnet that you create is automatically associated with the main route table for the VPC.
 You can have multiple route tables.
 If you dont knwo your new subnet to be associated with the default route table, you must specifya different route table. If the default route table is public then all new subsets associated with it will also be public. Best practise is to ensure that default route table is private meaning there is no route out to the internet for the default route table.
 If you create a custom route table that is public, all new subnets will not have route out to the internet.
 Route tables can be confirued to access endpoints (public services accessed privately) and not just the internet.
+
+Ie. Main Route Table
+| Destination | Target |
+| --| --|
+| 10.0.0.0/16 | Local |
+| 0.0.0.0/0 | Internet Gateway |
+
 
 ## Internet Gateway (IGW)
 It connects your VPC with the internet.
@@ -895,7 +902,15 @@ Use case is high throughput workloads or if you need stable and reliable connect
 VPC Endpoints connect your VPC with AWS services through a non-public tunnel.
 It ensures that you can connect your VPC to supported AWS resources without requiring internet gateway, NAT devide or any other connection service.
 Traffic between VPC and AWS services stay within the AWS ecosystem.
-You can use VPC endpoint to connect EC2 and S3 without connectivity to the internet.
+
+Two types:
+| - | Interface Endpoint | Gateway Endpoint |
+| --- | --- | --- |
+| What | Elastic Network Interface with a Private IP | A gateway that is a target for specific route |
+| How | Uses DNS entries to redirect traffic | Uses prefix lists in the route table to redirect traffic |
+| Which services | API Gateway, CloudFormation, CloudWatch etc. | Amazon S3, DynamoDB |
+| Security | Security Groups | VPC Endpoint Policies |
+
 
 
 ## PrivateLink
@@ -909,6 +924,8 @@ Allows to connect one VPC with another via direct network route using private IP
 Instances in different VPCs behave as if they were on the same network.
 Usual practise is that there is only one central VPC that peers with others. Only the central can talk to the other VPCs.
 CIDR blocks cannot overlap.
+Uses private IP addresses.
+Connections are not transitive - full mesh required.
 
 ## VPC Flow Logs
 VPC Flow Logs is a feature that captures the IP information for all traffic flowing into and out of your VPC.
@@ -1210,3 +1227,37 @@ Elastic IP can be associated with either an EC2 instance or with network adapter
 
 # AWS Control Tower
 Allows you to create a landing zone which is a well architected multi account baseline
+
+# IPv4 Address
+
+IP Addresses are written in dotted decimal notation. Ech part of the address is a binary octet. 
+
+| 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 |
+| 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+
+octet - 8 bits - max number 255 ( equivalent of 11111111 (8 1s) in binary notation) x 4 gives 32 bits long address
+therefore each part can have a number from 0 to 255
+
+ie. 255.255.255.255 or 192.168.0.1 
+
+Subnet mask has same format and is used to define the network ID and host ID.
+
+Example:
+If our IP address is 192.168.123.3
+And our subnet mask is 255.255.255.0
+
+Then first 24 bits are identified as network address (8 1s) and the last 8 bits is identified as host address (8 0s).
+Therefore:
+192.168.123._ or 192.168.123.0/24 - network ID (All resources within the network will have same network ID)
+_._._.3 or 0.0.0.3 - host ID. Unique value per individual resource.
+
+# IPv6 Address
+128 bits long address. Uses hexadecimal notation rather than decimal.
+
+ie. 2020:0001:9d32:5bc2:1c48:32c1:a93b:b12c
+
+# Transit Gateway
+Is a network transit hub that interconnects VPCs and on-premises networks.
+
+
+
