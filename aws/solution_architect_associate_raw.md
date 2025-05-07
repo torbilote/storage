@@ -54,7 +54,7 @@ Amazon S3
 "Action": "s3:GetObject"
 ```
 
-Example of IAM Permissions Policy:
+Example of IAM Permissions identity-based Policy:
 ```json
 {
   "Version": "2012-10-17", 
@@ -104,11 +104,11 @@ Example of IAM Trust Policy:
 ```
 Principal - can be IAM user, role or AWS service that will be able to assume the specified role 
 
-Trust Policy vs Permissions Policy:
+Trust Policy vs Permissions identity-based Policy:
 Trust policy is needed when creating a new role and it defines what principals can perform an action of Security Token Service (STS) (like AssumeRole or GetSecurityToken) on this role.
-Permissions Policy defines what actions the given role can perform within AWS environment.
+Permissions identity-based Policy defines what actions the given role can perform within AWS environment.
 For example you create a role named 'MyEC2Role' and define a trust policy to allow EC2 instances to assume the role (authorize as this role).
-Later on, you define a permission policy to allow newly created role 'MyEC2Role' to perform read actions on specific S3 buckets.
+Later on, you define a permission identity-based policy to allow newly created role 'MyEC2Role' to perform read actions on specific S3 buckets.
 
 IAM policy simulator helps you to understand what actions the user, group or role is allowed or denied to perform.
 
@@ -147,7 +147,8 @@ version id - optionally
 metadata - additional information attached
 
 Objects immediately available after put.
-Durability 99.999999999$ or 11 9s
+Durability - protection against data loss/corruption - 99.999999999% or 11 9s
+Availability - amount of time the data is available to you - ie. 99.99% 
 s3 bucket hold objects. buckets can have folders.
 
 s3 is universal namespace so buckets names have to be unique.
@@ -168,8 +169,12 @@ data transfer
 transfer acceleration
 cross region replication
 
-Bucket policies secure data at bucket level
-access control lists secure data at object level
+Bucket policies (resource-based policies) secure data at bucket level.
+access control lists secure data at object level - not recommended
+
+use S3 bucket policies over IAM policies if:
+- you want a simple way to grant cross-account access to your s3 environment, without using IAM roles,
+- you prefer to keep access control policies in the s3 environment
 
 By default buckets are private
 
@@ -253,6 +258,13 @@ Anyone who receives the URL can access the object.
 S3 select:
 Enables to pull out only part of the data from an object which can dramatically improve the performance and reduce cost.
 
+S3 is global and is outside of the VPC.
+
+S3 Gateway Endpoint:
+Enables EC2 instances connect to S3 from VPC using private address (public and private subnets).
+
+S3 Object Lambda:
+uses lambda functions to process the output of S3 GET request. In other words, Lambda process and modify data before returning it to the requestor.
 # CloudFront
 
 Content Delivery Network (CDN) - group of geographically distributed servers that speed up the delivery of web content by bringing it closer to where users are.
