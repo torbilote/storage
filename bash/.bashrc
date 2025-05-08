@@ -31,6 +31,13 @@ fi ;
 
 # to run ssh-agent and add ssh-keys to agent
 eval "$(ssh-agent -s)"
+
+# option 1, dynamic
+for i in $(ls $HOME/.ssh/*.pub); do
+    ssh-add ${i%.pub} ;
+done
+
+# option 2, static
 ssh-add $HOME/.ssh/<key_name>
 
 
