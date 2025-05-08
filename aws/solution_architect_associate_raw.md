@@ -286,16 +286,17 @@ Can serve up entire websites.
 Requests always cached in the nearest edge location for the user.
 Two types of distributions:
 Web Distribution : web sites, normal cached items,
-RTMP: streaming content
+RTMP: streaming content - discountinued
 
 Edge locations are read and write.
 Can invalidate the distribution of certain objects so the content is loaded directly from the origin.
-Origin Access Identity (OAI) is used for sharing private content via CloudFront.
+Origin Access Identity (OAI) is used for sharing private content via CloudFront. - depraced, replaced by OAC - Origin Access Control.
+
 
 Signed URLs and Signed Cookies - allow you to control who can access your content.
 Use signed URLs when:
 - you want to use RTMP disribution.
-- you want to restrict access to individual files,
+- you want to restrict access to individual files,`
 - your users are using a client that doesnt support cookies.
 
 Use signed cookies when:
