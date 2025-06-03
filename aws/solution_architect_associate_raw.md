@@ -378,7 +378,7 @@ Elastic Block Store (EBS) volumes can be attached to EC2 instances for persisten
 
 User data: code to be run the first time you launch your instance (like bash script).
 Metadata: information about your EC2 instance from within your instance that you can get from sending an http request to 169.254.169.254 server (IMDS v1 and v2).
-
+ 
 # Elastic Block Store (EBS)
 Elastic Block Store (EBS) volume is durable block-level storage device. Think of it as cloud-based virtual hard disk.
 Can be attached to EC2 instance. Can be used as primary storage such as the system drive or storage for database application.
@@ -388,7 +388,7 @@ EBS volume is automatically replicated within its availability zone.
 
 5 types of EBS:
 - general purpose (SSD)
-- provisioned IOPS (SSD built for speed)
+- provisioned IOPS (SSD built for speed) 
 - Throughput Optimized Hard Disk Drive (magnetic, built for larger data loads)
 - Cold Hard Disk Drive (magnetic, built for less frequently accessed workloads)
 - Magnetic
@@ -430,6 +430,9 @@ What is encrrypted:
 - all snapshots created from the volume
 - all volumes created from those snapshots
 
+Can use RAID (Redundant Array of Independent Disks)
+RAID 0 - for performance
+RAID 1 - for redundancy/ fault tolerance
 # Elastic Network Interfaces (ENI)
 Elastic Network Interfaces (ENI) is networking component/adapter that represents a virtual network card.
 Mainly used for low-budget, high-availability network solutions
@@ -538,6 +541,8 @@ All data is encrypted at rest and in transit.
 Provides easy and cost effective environment to launch and run the open source Lustre file system for high performance computing applications.
 Can process massive data sets up to hundreds of gigabytes per second of throughput, milions of IOPS and sub-milisecond latencies.
 Compatible with most popular Linux-based AMIs.
+
+Integrated natively with S3.
 
 # Relational Database Service (RDS)
 Managed service to set up and scale relational database in AWS. Provides cost-efficient and resizable capacity while automating/outsourcing time-consuming admisitration tasks such as hardware provisioning, database setup, backups etc.
