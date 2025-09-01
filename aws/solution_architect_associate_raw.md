@@ -842,8 +842,9 @@ Subnets function as a logical groups.
 Network Access Control Lists are like security groups but for subnets rather than instances. 
 
 Comparison between NACL and SG
-| NACL	| Security Group |
-| *** | *** |
+
+| NACL | Security Group |
+| --- | --- |
 | Operates at the subnet level |	Operates at the instance level |
 | Supports allow rules and deny rules	| Supports allow rules only |
 | Is stateless: Return traffic must be explicitly allowed by rules |Is stateful: Return traffic is automatically allowed, regardless of any rules |
@@ -1200,6 +1201,7 @@ Elastic Container Service (ECS) is a fully managed container orchestration servi
 Eliminates the need to install, manage and scale own cluster management infrastructure.
 Can use simple API calls to manage apps and access many features integrated with other AWS services.
 
+
 # Elastic Kubernetes Service (EKS)
 Elastic Kubernetes Service (EKS) is a fully managed Kubernetes service.
 You can leverage all benefits of open source tooling from the Kubernetes community.
@@ -1260,6 +1262,7 @@ Allows you to create a landing zone which is a well architected multi account ba
 IP Addresses are written in dotted decimal notation. Ech part of the address is a binary octet. 
 
 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 |
+|-|-|-|-|-|-|-|-|
 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 
 octet - 8 bits - max number 255 ( equivalent of 11111111 (8 1s) in binary notation) x 4 gives 32 bits long address
@@ -1286,5 +1289,5 @@ ie. 2020:0001:9d32:5bc2:1c48:32c1:a93b:b12c
 # Transit Gateway
 Is a network transit hub that interconnects VPCs and on-premises networks.
 
-
-
+# AWS App Runner
+Fully managed service for deploying containerized web applications and APIs. Provide the docker image and its ready to go. 
