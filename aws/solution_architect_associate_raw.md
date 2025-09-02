@@ -997,6 +997,11 @@ By default, it uses short-polling as ReceiveMessageWaitTimeSeconds queue attribu
 
 Every time you poll the queue, you incur a charge.
 
+Dead Letter Queue - is a configuration when you add extra standard or FIFO queue that has been specified as dead-letter queue and where all messages that were not processed successfully are placed in. Enables the handling of message failure.
+
+Delay Queue - set a delay on the message visibility. Message becomes visible once the delay seconds passed. 
+
+
 # Simple Workflow Service (SWF)
 Simple Workflow Service is a web service that coordinate tasks between application and people. It is a service that combines digital and human-oriented workflows.
 Provides a task-oriented API.
@@ -1004,6 +1009,8 @@ The SWF pipline is composed of three different worker apps:
 - SWF actors - workers to trigger the beginning of a workflow
 - SWF deciders - workers that control the flow of the workflow once it has been started
 - SWF activity workers - workers that carry out the task to completion
+
+AWS recommends to use Step Functions instead of SWF
 
 
 # Simple Notification Service (SNS)
@@ -1291,3 +1298,5 @@ Is a network transit hub that interconnects VPCs and on-premises networks.
 
 # AWS App Runner
 Fully managed service for deploying containerized web applications and APIs. Provide the docker image and its ready to go. 
+
+# Step Functions
