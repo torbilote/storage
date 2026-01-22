@@ -1300,3 +1300,6 @@ Is a network transit hub that interconnects VPCs and on-premises networks.
 Fully managed service for deploying containerized web applications and APIs. Provide the docker image and its ready to go. 
 
 # Step Functions
+Serverless service that is used to build distributed applications as a series of steps in a visual workflow.
+Scalable orchestration service.
+You define a JSON based state machine which is a series of actions and rules that will be triggered respectively.

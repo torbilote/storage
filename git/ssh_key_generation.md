@@ -70,7 +70,7 @@
 ## Modyfing your remote origin url in your exisitng repository
 1. run
    ```bash
-   git remote set-url origin git@github-torbilote:<gh_account>/<gh_repo>.git
+   git remote set-url origin git@<host>:<gh_account>/<gh_repo>.git
     ```
     
 ---
