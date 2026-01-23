@@ -607,6 +607,8 @@ Aurora scales up to 128TB storage, 32 vCPUs and 244GB memory.
 Serverless. AUtomatic scaling.
 Recommended with infrequent workloads.
 
+# RDS Proxy
+
 # DynamoDB
 
 key-value and document database that delivers milisecond performance at any scale. Fully managed, multiregion, durable, non-SQL database.
@@ -1295,6 +1297,7 @@ ie. 2020:0001:9d32:5bc2:1c48:32c1:a93b:b12c
 
 # Transit Gateway
 Is a network transit hub that interconnects VPCs and on-premises networks.
+It allows for centralized management of routing between multiple VPCs, which simplifies the architecture and supports scaling to over 100 applications with minimal management effort. It acts as a hub that controls how traffic is routed among connected VPCs and on-premises networks, thus facilitating efficient communication among numerous VPCs without needing to create and manage numerous VPC peering connections, VPNs, or complex routing setups.
 
 # AWS App Runner
 Fully managed service for deploying containerized web applications and APIs. Provide the docker image and its ready to go. 
@@ -1303,3 +1306,19 @@ Fully managed service for deploying containerized web applications and APIs. Pro
 Serverless service that is used to build distributed applications as a series of steps in a visual workflow.
 Scalable orchestration service.
 You define a JSON based state machine which is a series of actions and rules that will be triggered respectively.
+
+# AWS DataSync
+AWS DataSync is a managed data transfer service that simplifies, automates, and accelerates moving data online between on-premises storage, edge locations, and other cloud providers, as well as between AWS storage services like Amazon S3 and Amazon EFS. It handles complex tasks like scripting, encryption, and data validation, and it uses optimized transfer protocols for high-speed data movement.
+
+# Amazon RDS Blue/Green Deployments
+Amazon RDS Blue/Green Deployments are a strategy for updating databases with minimal downtime by creating a fully managed, synchronized staging environment (green) alongside the current production environment (blue). Users can test changes like major/minor version upgrades, parameter changes, or schema modifications on the green environment without affecting the live blue database. When testing is complete, the production traffic can be switched over to the green environment, making it the new production instance, and the old blue instance can be discarded. 
+
+# Amazon EMR (Elastic MapReduce) 
+Amazon EMR (Elastic MapReduce) is a managed cloud platform that simplifies running big data frameworks like Apache Spark, Apache Hadoop, Apache Hive, and Presto on AWS to process and analyze massive amounts of data. It is designed to make it easy to set up, operate, and scale big data environments by automating time-consuming tasks like provisioning capacity and tuning clusters. 
+Integrates with EC2 and S3.
+
+# AWS Systems Manager
+AWS Systems Manager is a unified service that provides a central operational hub for managing your AWS resources and applications at scale in hybrid and multicloud environments. It offers a comprehensive set of tools for tasks like automated patching, secure instance access, and operational insights, helping to streamline management, automate tasks, and improve the overall security and efficiency of your infrastructure.
+
+# AWS Resource Groups
+AWS Resource Groups lets you organize AWS resources such as Amazon Elastic Compute Cloud instances, Amazon Relational Database Service databases, and Amazon Simple Storage Service buckets into groups using criteria that you define as tags.
