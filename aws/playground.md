@@ -1,3 +1,4 @@
+
 - create ec2 instance:
 ```bash
 aws ec2 run-instances \
@@ -14,8 +15,8 @@ aws ec2 run-instances \
 ```
 - connect to ec2 via ssh:
 ```bash
-    ssh -i "my-ec2-key-pair.pem" ubuntu@<public_dns>
     ssh -i "my-ec2-key-pair.pem" ubuntu@<public_ip>
+    ssh -i "my-ec2-key-pair.pem" ubuntu@<public_dns>
 ```
 
 - get metadata from within ec2:
@@ -26,16 +27,18 @@ aws ec2 run-instances \
 
 - run simple web server on ec2:
 ```bash
+    #!/bin/bash 
     sudo apt update 
     sudo apt install nginx -y
+
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
 
     touch index.html
     export inst=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id/)
     echo "<html>Hello in $inst instance id</html>" > index.html
     sudo mv index.html /var/www/html/index.html
     
-    sudo systemctl start nginx
-    sudo systemctl enable nginx
 
     curl http://<ip>
 ```
