@@ -54,3 +54,15 @@ aws ec2 run-instances \
 
 EC2 needs to be allocated in public subnet within VPC with internet gateway attached. You can also add EC2 instances to target group and then create load balancer.
 
+
+- run Fargate Task (assuming cluster 'greenbox-cluster' and task definition 'greenbox-task-definition' is already created)
+```bash
+aws ecs run-task \
+--task-definition "greenbox-task-definition" \
+--cluster "greenbox-cluster" \
+--launch-type "FARGATE" \
+--count 1 \
+--network-configuration \
+"awsvpcConfiguration={subnets=["subnet-0683fc73b91264e78"], securityGroups=["sg-0debfa45e66873e61"], assignPublicIp="ENABLED"}" \
+--region "eu-north-1"
+```
