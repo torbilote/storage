@@ -88,6 +88,6 @@ aws lambda delete-function \
 -- update AWS Lambda (ie. when you just update the docker image)
 ```bash
 aws lambda update-function-code \
-  --function-name py-pc-components-scraper-lambda \
-  --image-uri 335721753558.dkr.ecr.eu-north-1.amazonaws.com/torbilote-dev/py-pc-components-scraper:latest
-```
+--function-name py-pc-components-scraper-lambda \
+--image-uri 335721753558.dkr.ecr.eu-north-1.amazonaws.com/torbilote-dev/py-pc-components-scraper:latest
+``` 
