@@ -66,3 +66,27 @@ aws ecs run-task \
 "awsvpcConfiguration={subnets=["subnet-0683fc73b91264e78"], securityGroups=["sg-0debfa45e66873e61"], assignPublicIp="ENABLED"}" \
 --region "eu-north-1"
 ```
+
+-- create AWS Lambda
+```bash
+aws lambda create-function \
+--function-name py-pc-components-scraper-lambda \
+--package-type Image \
+--code ImageUri=335721753558.dkr.ecr.eu-north-1.amazonaws.com/torbilote-dev/py-pc-components-scraper:latest \
+--role arn:aws:iam::335721753558:role/py-pc-components-scraper-lambda-execution-role \
+--timeout 60 \
+--memory-size 512
+```
+
+-- delete AWS lambda
+```bash
+aws lambda delete-function \
+--function-name py-pc-components-scraper-lambda
+```
+
+-- update AWS Lambda (ie. when you just update the docker image)
+```bash
+aws lambda update-function-code \
+  --function-name py-pc-components-scraper-lambda \
+  --image-uri 335721753558.dkr.ecr.eu-north-1.amazonaws.com/torbilote-dev/py-pc-components-scraper:latest
+```
