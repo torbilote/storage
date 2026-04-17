@@ -75,7 +75,8 @@ aws lambda create-function \
 --code ImageUri=335721753558.dkr.ecr.eu-north-1.amazonaws.com/torbilote-dev/py-pc-components-scraper:latest \
 --role arn:aws:iam::335721753558:role/py-pc-components-scraper-lambda-execution-role \
 --timeout 60 \
---memory-size 512
+--memory-size 512 \
+--environment "Variables={PROXY_URL_1=<https://username:password@host:port/>,PROXY_URL_2=<https://username:password@host:port/>}"
 ```
 
 -- delete AWS lambda
